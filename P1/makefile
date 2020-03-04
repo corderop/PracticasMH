@@ -17,4 +17,4 @@ obj/%.o : src/%.cpp
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 clean:
-	rm -r $(OBJ)/* $(EXE)
+	rm -r $(OBJ)/* $(_EXE)
