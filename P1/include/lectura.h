@@ -1,8 +1,7 @@
-#ifndef LECTURA_H_INCLUDED
-#define LECTURA_H_INCLUDED
+#ifndef LECTURA_H_
+#define LECTURA_H_
 
-#include <iostream>
-
-
+// Definición particular para poder usar templates
+#include "../src/lectura.cpp"
 
 #endif

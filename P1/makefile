@@ -10,6 +10,8 @@ _OBJ = $(addprefix obj/, $(notdir $(addsuffix .o, $(basename $(_CPP)))))
 all: $(_EXE)
 	./$(_EXE)
 
+comp: $(_EXE)
+
 $(_EXE): $(_OBJ) makefile
 	$(CC) -o $(_EXE) $(_OBJ)
 
