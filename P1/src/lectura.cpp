@@ -1,9 +1,9 @@
 // Referencias
 // https://stackoverflow.com/questions/37957080/can-i-use-2-or-more-delimiters-in-c-function-getline
 // 
-#include "aux.h"
 #include <fstream>
 #include <sstream>
+#include "aux.h"
 
 template <class T>
 vector<vector<T>> leerDatos(string s){
@@ -27,7 +27,7 @@ vector<vector<T>> leerDatos(string s){
     
     f.close();
 
-    cout<<s<<" leído correctamente"<<endl;
+    cout<<s<<" leído"<<endl;
 
     return out;
 }
