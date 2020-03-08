@@ -4,11 +4,11 @@
 #include "aux.h"
 
 // Genera el vector RSI para tener las componenetes.
-void generarVector(vector<int> &i);
+void generarVector(vector<int> &i, int n);
 
-float distanciaEuclidea(const vector<int> &a, const vector<int> &b);
+float distanciaEuclidea(const vector<float> &a, const vector<float> &b);
 
-vector<pair<float,int>> distancias(const vector<int> &X, const vector<vector<int>> &U);
+vector<pair<float,int>> distancias(const vector<float> &X, const vector<vector<float>> &U);
 
 bool aniadir(int n, int cluster, const vector<vector<int>> &C, const vector<vector<int>> &MR);
 
@@ -19,9 +19,11 @@ bool aniadir(int n, int cluster, const vector<vector<int>> &C, const vector<vect
 // Devuelve el número con el que tiene que estar en out_pos
 int deboAniadir(int &out_pos, const vector<int> &asig, int n, const vector<vector<int>> &MR);
 
+void calcularCentroide(vector<float> &U, vector<int> &C, const vector<vector<float>> &X);
+
 // Implementación del algoritmo greedy
-vector<vector<int>> greedy(const vector<vector<int>> &X, 
-                           const vector<vector<int>> &R,
-                           const int k, const vector<vector<int>> &U);
+vector<vector<int>> greedy(vector<vector<float>> &X, 
+                           vector<vector<int>> &MR,
+                           const int k, vector<vector<float>> &U);
 
 #endif

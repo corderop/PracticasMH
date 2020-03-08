@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-g -O2 -Iinclude
+CFLAGS=-g -Iinclude
 BIN=bin
 OBJ=obj
 
@@ -11,6 +11,9 @@ all: $(_EXE)
 	./$(_EXE)
 
 comp: $(_EXE)
+
+depurar: $(_EXE)
+	gdb $(_EXE)
 
 $(_EXE): $(_OBJ) makefile
 	$(CC) -o $(_EXE) $(_OBJ)

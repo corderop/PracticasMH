@@ -1,7 +1,7 @@
 #include "greedy.h"
 
 void generarVector(vector<int> &v, int n){
-    v.clear();
+    v.resize(n);
 
     for(int i=0; i<n ; i++)
         v[i] = i;
@@ -67,31 +67,26 @@ bool aniadir(int n, int cluster, vector<vector<int>> &C, const vector<vector<int
     return out;
 }
 
-// void suma(vector<int> &v){
-//     float suma = 0;
-//     int n = v.size();
-
-//     for(int i=0; i<n; i++){
-//         suma += v[i];
-//     }
-// }
-
 void calcularCentroide(vector<float> &U, vector<int> &C, const vector<vector<float>> &X){
-    int n = C.size();
-    int n2 = X[0].size();
-    U = vector<float>(n2,0.0);
+    int n = U.size();
+    int n2 = C.size();
+    U = vector<float>(n,0.0);
     
+    // Recorro U
     for(int i=0; i<n; i++)
         for(int j=0; j<n2; j++)
-            U[j] += X[C[i]][j];
+            U[i] += ( X[C[j]][i]/n2 );
 }
 
-vector<vector<int>> greedy(const vector<vector<float>> &X, const vector<vector<int>> &MR, const int k, vector<vector<float>> &U){
+vector<vector<int>> greedy(vector<vector<float>> &X, vector<vector<int>> &MR, const int k, vector<vector<float>> &U){
     // Declaración de variables
     int n = X.size();
     // RSI barajado de forma aleatoria
     vector<int> RSI;
     generarVector(RSI, n);
+
+    // Centroides aleatorios
+    centroidesIniciales(U);
 
     // Obtiene el cluster asignado a cada instancia
     vector<int> asig(n, -1);
@@ -101,9 +96,12 @@ vector<vector<int>> greedy(const vector<vector<float>> &X, const vector<vector<i
     // Será true si se produce un cambio en C
     bool cambiado = false;
 
+    vector<vector<int>> ant_C(0);
+
     do{
         cambiado = false;
-        for(int i=0; i<n; i++)
+        ant_C = C;
+        for(int i=0; i<k; i++)
             C[i].clear();
 
         for(int i=0; i<n; i++){
@@ -117,8 +115,10 @@ vector<vector<int>> greedy(const vector<vector<float>> &X, const vector<vector<i
                 // No hay restricciones ML
                 for(int h=0; h<d.size() && !aniadido; h++){
                     aniadido = aniadir(j, d[h].second, C, MR);
-                    if(aniadido)
+                    if(aniadido){
                         cambiado = true;
+                        asig[j] = d[h].second;
+                    }
                 }
             }
             else if(debo==1){
@@ -138,7 +138,7 @@ vector<vector<int>> greedy(const vector<vector<float>> &X, const vector<vector<i
             for(int i=0; i<k; i++)
                 calcularCentroide(U[i], C[i], X);
 
-    }while(cambiado);
+    }while(ant_C != C);
 
-    return C;
+    return ant_C;
 }
