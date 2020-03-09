@@ -7,8 +7,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <cmath>
-
-using namespace std;
+#include <cassert>
 
 // Estructuras
 #include <string>
@@ -16,5 +15,7 @@ using namespace std;
 
 // Propias
 #include "random.h"
+
+using namespace std;
 
 #endif
