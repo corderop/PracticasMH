@@ -21,5 +21,8 @@ $(_EXE): $(_OBJ) makefile
 obj/%.o : src/%.cpp
 	$(CC) -c $< -o $@ $(CFLAGS)
 
+valgrind: $(_EXE)
+	valgrind -v --tool=memcheck --leak-check=full --track-origins=yes --show-reachable=yes ./$(_EXE)
+
 clean:
 	rm -r $(OBJ)/* $(_EXE)

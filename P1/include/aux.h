@@ -8,10 +8,12 @@
 #include <cstdlib>
 #include <cmath>
 #include <cassert>
+#include <ctime>
 
 // Estructuras
 #include <string>
 #include <vector>
+#include <queue>
 
 // Propias
 #include "random.h"

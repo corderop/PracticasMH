@@ -1,10 +1,10 @@
-#ifndef _GREEDY_H_
-#define _GREEDY_H_
+#ifndef _LOCAL_H_
+#define _LOCAL_H_
 
 #include "aux.h"
 #include "global.h"
 
-class Greedy{
+class BusquedaLocal{
 
     public:
         // Conjunto de datos
@@ -21,10 +21,8 @@ class Greedy{
         int k;
         // Infeasibility total
         int inf_total;
-        // Desviación general de la particion
-        float desviacion;
-        // Tiempo
-        float time;
+        // Distancia media intra-cluster
+        
 
         /**
          * @brief Inicializa y calcula el resultado
@@ -32,22 +30,14 @@ class Greedy{
          * @param _MR Matriz de restricciones
          * @param _k Número de clusters
          */
-        Greedy(vector<vector<float>> _X, vector<vector<int>> _MR, int _k);
-
-        /**
-         * @brief Muestra el resultado obtenido en el cálculo
-         */
-        void mostrarResultado();
+        BusquedaLocal(vector<vector<float>> _X, vector<vector<int>> _MR, int _k);
 
     private:
         // Cluster asignado a cada nodo
         vector<int> asig;
         // Clusters vacios
         vector<bool> C_vacios;
-        // Número de clusters vacíos en un momento
         int num_vacios;
-        // Distancia media intracluster
-        vector<float> c_ic;
 
         /**
          * @brief Calcula los centroides iniciales de forma aleatoria
@@ -104,16 +94,5 @@ class Greedy{
          * @return Valor de la infeasibility
          */
         int infeasibilityUna(int a, int b);
-
-        /**
-         * @brief Calcula la distancia media intra-cluster
-         */
-        void distanciaMediaIntraCluster();
-
-        /**
-         * @brief Desviación general de la partición a partir de las desviaciones intra-cluster
-         */
-        void desviacionGeneral();
-
 };
 #endif

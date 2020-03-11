@@ -14,3 +14,22 @@ vector<vector<int>> restriccionesALista(const vector<vector<int>> &m){
 
     return out;
 }
+
+void generarVector(vector<int> &v, int n){
+    v.resize(n);
+
+    for(int i=0; i<n ; i++)
+        v[i] = i;
+    
+    random_shuffle(v.begin(), v.end());
+}
+
+float distanciaEuclidea(const vector<float> &a, const vector<float> &b){
+    float sum=0;
+    int n = a.size();
+
+    for(int i=0; i<n; i++)
+        sum += (b[i]-a[i])*(b[i]-a[i]);
+
+    return sqrt(sum);
+}
