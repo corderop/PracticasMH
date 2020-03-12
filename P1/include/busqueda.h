@@ -10,7 +10,7 @@ class Busqueda{
     public:
 
         /**
-         * @brief Inicializa y calcula el resultado
+         * @brief Inicializa los datos necesarios
          * @param _X Conjunto de datos
          * @param _MR Matriz de restricciones
          * @param _k Número de clusters
@@ -24,19 +24,10 @@ class Busqueda{
          */
         void mostrarResultado();
 
-        // GREEDY -------------------------------------------
-
         /**
-         * @brief Realiza la búsqueda de la solución mediante el método Greedy
+         * @brief Realiza la búsqueda de una solución
          */
-        void busquedaGreedy();
-
-        // LOCAL --------------------------------------------
-
-        /**
-         * @brief Realiza la búsqueda de la solución mediante el método de búsqueda local
-         */
-        void busquedaLocal();
+        virtual void realizarBusqueda() = 0;
 
     protected:
 
@@ -74,8 +65,6 @@ class Busqueda{
         // Número de elementos en cada cluster
         vector<int> n_c;
 
-        // GLOBAL -------------------------------------------
-
         /**
          * @brief Calcula lambda necesaria para la función objetivo
          */
@@ -107,60 +96,6 @@ class Busqueda{
          * @return El valor de la evaluación
          */
         void funcionObjetivo();
-
-        // GREEDY -------------------------------------------
-
-        /**
-         * @brief Calcula los centroides iniciales de forma aleatoria
-         */
-        void calcularCentroidesIniciales();
-
-        /**
-         * @brief Calcula la distancia de una instancia con los diferentes centroides
-         * @param a instancia
-         * @return Priotity queue con el mejor candidato el primero
-         */
-        priority_queue<ordena, vector<ordena>, compara_ordena> distancias(int a);
-
-        /**
-         * @brief Calcula la distancia de una instancia con los diferentes centroides de los clusters vacios
-         *        Minimizará la infeasibility y cumplirá la restricción de que todos los nodos deben tener una instancia
-         * @param a instancia
-         * @return Priotity queue con el mejor candidato el primero
-         */
-        priority_queue<ordena, vector<ordena>, compara_ordena> distanciasVacios(int a);
-
-        /** 
-         * @brief Añade una instancia a un cluster si no se viola una restricción ML
-         * @param inst Instancia a añadir
-         * @param cluster Cluster donde añadirlo
-         */
-        void aniadir(int inst, int cluster);
-
-        /**
-         * @brief Calcula la infeasibility de una instancia respecto a un cluster
-         * @param a Instancia para la que calcular
-         * @param b Cluster para el que calcular
-         * @return Valor de la infeasibility
-         */
-        int infeasibilityUna(int a, int b);
-
-        // LOCAL --------------------------------------------
-
-        /**
-         * @brief Genera una solución inicial para la BL
-         */
-        void generarSolucionInicial();
-
-        /**
-         * @brief Recalcula F para un cambio
-         */
-        float recalcularF(const pair<int,int> &cambio);
-
-        /**
-         * @brief Generamos el vecindario
-         */
-        vector<pair<int,int>> generamosVecindario();
 
 };
 #endif

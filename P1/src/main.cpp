@@ -1,7 +1,8 @@
 #include <iostream>
 #include "aux.h"
 #include "lectura.h"
-#include "busqueda.h"
+#include "greedy.h"
+#include "local.h"
 
 using namespace std;
 
@@ -18,8 +19,8 @@ int main(){
     vector<vector<int>> lista_rest = restriccionesALista(restricciones);
 
     cout<<"--------------------------------"<<endl;
-    Busqueda grd(data, restricciones, 3);
-    grd.busquedaLocal();
+    Local grd(data, restricciones, 3);
+    grd.realizarBusqueda();
     grd.mostrarResultado();
     cout<<"--------------------------------"<<endl;
 }
