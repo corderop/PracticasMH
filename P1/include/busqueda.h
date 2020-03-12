@@ -1,10 +1,10 @@
-#ifndef _GREEDY_H_
-#define _GREEDY_H_
+#ifndef _BUSQUEDA_H_
+#define _BUSQUEDA_H_
 
 #include "aux.h"
 #include "global.h"
 
-class Greedy{
+class Busqueda{
 
     public:
         // Conjunto de datos
@@ -13,8 +13,11 @@ class Greedy{
         vector<vector<float>> U;
         // Conjunto de restricciones
         vector<vector<int>> MR;
+        vector<vector<int>> LR;
         // Reparto por clusters
         vector<vector<int>> C;
+        // Solución búsqueda local
+        vector<int> S;
         // Número de componentes de cada instancia de X
         int n;
         // Número de clusters
@@ -25,6 +28,8 @@ class Greedy{
         float desviacion;
         // Tiempo
         float time;
+        // Valor objetivos
+        float obj;
 
         /**
          * @brief Inicializa y calcula el resultado
@@ -32,32 +37,46 @@ class Greedy{
          * @param _MR Matriz de restricciones
          * @param _k Número de clusters
          */
-        Greedy(vector<vector<float>> _X, vector<vector<int>> _MR, int _k);
+        Busqueda(vector<vector<float>> _X, vector<vector<int>> _MR, int _k);
 
         /**
          * @brief Muestra el resultado obtenido en el cálculo
          */
         void mostrarResultado();
 
+        /**
+         * @brief Realiza la búsqueda de la solución mediante el método Greedy
+         */
+        void busquedaGreedy();
+
+        /**
+         * @brief Realiza la búsqueda de la solución mediante el método de búsqueda local
+         */
+        void busquedaLocal();
+
     private:
-        // Cluster asignado a cada nodo
-        vector<int> asig;
         // Clusters vacios
         vector<bool> C_vacios;
         // Número de clusters vacíos en un momento
         int num_vacios;
         // Distancia media intracluster
         vector<float> c_ic;
+        // Factor
+        float lambda;
+        // Número de elementos en cada cluster
+        vector<int> n_c;
+
+        // -- MÉTODOS GLOABLES -----------------------------------------
+
+        /**
+         * @brief Calcula lambda necesaria para la función objetivo
+         */
+        void calculoLambda();
 
         /**
          * @brief Calcula los centroides iniciales de forma aleatoria
          */
         void calcularCentroidesIniciales();
-
-        /**
-         * @brief Realiza la búsqueda de la solución
-         */
-        void busqueda();
 
         /**
          * @brief Calcula la distancia de una instancia con los diferentes centroides
@@ -73,16 +92,6 @@ class Greedy{
          * @return Priotity queue con el mejor candidato el primero
          */
         priority_queue<ordena, vector<ordena>, compara_ordena> distanciasVacios(int a);
-
-        /** 
-         * @brief Calcula si debe de añadir el nodo en un cluster específico. (Restricción ML)
-         * @param out_pos Devuelve el número del cluster donde debe añadirse
-         * @param inst Instancia que se tiene que checkear
-         * @return - Si lo debe añadir devuelve 1
-         *         - Si no tiene porqué devuelve 0
-         *         - Si lo debe de añadir en dos devuelve -1
-         */
-        int deboAniadir(int &out_pos, int inst);
 
         /** 
          * @brief Añade una instancia a un cluster si no se viola una restricción ML
@@ -106,6 +115,11 @@ class Greedy{
         int infeasibilityUna(int a, int b);
 
         /**
+         * @brief Calcula el número de restricciones incumplidas a partir de C
+         */
+        void infeasibilityTotal();
+
+        /**
          * @brief Calcula la distancia media intra-cluster
          */
         void distanciaMediaIntraCluster();
@@ -114,6 +128,31 @@ class Greedy{
          * @brief Desviación general de la partición a partir de las desviaciones intra-cluster
          */
         void desviacionGeneral();
+
+        /**
+         * @brief Calcula la función objetivo a partir de C
+         * @return El valor de la evaluación
+         */
+        void funcionObjetivo();
+
+        void funcionObjetivoDeS();
+
+        /**
+         * @brief Recalcula F para un cambio
+         */
+        float recalcularF(const pair<int,int> &cambio);
+
+        // -- MÉTODOS BL -----------------------------------------
+
+        /**
+         * @brief Genera una solución inicial para la BL
+         */
+        void generarSolucionInicial();
+
+        /**
+         * @brief Generamos el vecindario
+         */
+        vector<pair<int,int>> generamosVecindario();
 
 };
 #endif

@@ -19,9 +19,9 @@ vector<vector<int>> restriccionesALista(const vector<vector<int>> &m);
 float distanciaEuclidea(const vector<float> &a, const vector<float> &b);
 
 /**
- * @brief Genera un vector aleatorio para tomar el orden de procesamiento
+ * @brief Genera un vector aleatorio que contenga componentes de 0 a n-1
  * @param v Vector de salida
- * @param n Número de vectores a asignar
+ * @param n Número a de vector maximo
  */
 void generarVector(vector<int> &v, int n);
 
@@ -43,6 +43,15 @@ struct compara_ordena{
 
         return out;
     }
+};
+
+struct copia{
+    vector<vector<float>> U;
+    vector<vector<int>> C;
+    vector<float> c_ic;
+    float obj;
+    float desviacion;
+    int inf_total;
 };
 
 #endif
