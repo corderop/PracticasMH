@@ -6,7 +6,40 @@
 
 class Busqueda{
 
+
     public:
+
+        /**
+         * @brief Inicializa y calcula el resultado
+         * @param _X Conjunto de datos
+         * @param _MR Matriz de restricciones
+         * @param _k Número de clusters
+         */
+        Busqueda(vector<vector<float>> _X, vector<vector<int>> _MR, int _k);
+
+        // GLOBAL -------------------------------------------
+
+        /**
+         * @brief Muestra el resultado obtenido en el cálculo
+         */
+        void mostrarResultado();
+
+        // GREEDY -------------------------------------------
+
+        /**
+         * @brief Realiza la búsqueda de la solución mediante el método Greedy
+         */
+        void busquedaGreedy();
+
+        // LOCAL --------------------------------------------
+
+        /**
+         * @brief Realiza la búsqueda de la solución mediante el método de búsqueda local
+         */
+        void busquedaLocal();
+
+    protected:
+
         // Conjunto de datos
         vector<vector<float>> X;
         // Centroides
@@ -30,31 +63,6 @@ class Busqueda{
         float time;
         // Valor objetivos
         float obj;
-
-        /**
-         * @brief Inicializa y calcula el resultado
-         * @param _X Conjunto de datos
-         * @param _MR Matriz de restricciones
-         * @param _k Número de clusters
-         */
-        Busqueda(vector<vector<float>> _X, vector<vector<int>> _MR, int _k);
-
-        /**
-         * @brief Muestra el resultado obtenido en el cálculo
-         */
-        void mostrarResultado();
-
-        /**
-         * @brief Realiza la búsqueda de la solución mediante el método Greedy
-         */
-        void busquedaGreedy();
-
-        /**
-         * @brief Realiza la búsqueda de la solución mediante el método de búsqueda local
-         */
-        void busquedaLocal();
-
-    private:
         // Clusters vacios
         vector<bool> C_vacios;
         // Número de clusters vacíos en un momento
@@ -66,12 +74,41 @@ class Busqueda{
         // Número de elementos en cada cluster
         vector<int> n_c;
 
-        // -- MÉTODOS GLOABLES -----------------------------------------
+        // GLOBAL -------------------------------------------
 
         /**
          * @brief Calcula lambda necesaria para la función objetivo
          */
         void calculoLambda();
+
+        /**
+         * @brief Calcula el centroide de un cluster a partir de sus instancias
+         * @param a Cluster del que calculamos
+         */
+        void calcularCentroide(int a);
+
+        /**
+         * @brief Calcula el número de restricciones incumplidas a partir de C
+         */
+        void infeasibilityTotal();
+
+        /**
+         * @brief Calcula la distancia media intra-cluster
+         */
+        void distanciaMediaIntraCluster();
+
+        /**
+         * @brief Desviación general de la partición a partir de las desviaciones intra-cluster
+         */
+        void desviacionGeneral();
+
+        /**
+         * @brief Calcula la función objetivo a partir de C
+         * @return El valor de la evaluación
+         */
+        void funcionObjetivo();
+
+        // GREEDY -------------------------------------------
 
         /**
          * @brief Calcula los centroides iniciales de forma aleatoria
@@ -101,12 +138,6 @@ class Busqueda{
         void aniadir(int inst, int cluster);
 
         /**
-         * @brief Calcula el centroide de un cluster a partir de sus instancias
-         * @param a Cluster del que calculamos
-         */
-        void calcularCentroide(int a);
-
-        /**
          * @brief Calcula la infeasibility de una instancia respecto a un cluster
          * @param a Instancia para la que calcular
          * @param b Cluster para el que calcular
@@ -114,40 +145,17 @@ class Busqueda{
          */
         int infeasibilityUna(int a, int b);
 
-        /**
-         * @brief Calcula el número de restricciones incumplidas a partir de C
-         */
-        void infeasibilityTotal();
-
-        /**
-         * @brief Calcula la distancia media intra-cluster
-         */
-        void distanciaMediaIntraCluster();
-
-        /**
-         * @brief Desviación general de la partición a partir de las desviaciones intra-cluster
-         */
-        void desviacionGeneral();
-
-        /**
-         * @brief Calcula la función objetivo a partir de C
-         * @return El valor de la evaluación
-         */
-        void funcionObjetivo();
-
-        void funcionObjetivoDeS();
-
-        /**
-         * @brief Recalcula F para un cambio
-         */
-        float recalcularF(const pair<int,int> &cambio);
-
-        // -- MÉTODOS BL -----------------------------------------
+        // LOCAL --------------------------------------------
 
         /**
          * @brief Genera una solución inicial para la BL
          */
         void generarSolucionInicial();
+
+        /**
+         * @brief Recalcula F para un cambio
+         */
+        float recalcularF(const pair<int,int> &cambio);
 
         /**
          * @brief Generamos el vecindario

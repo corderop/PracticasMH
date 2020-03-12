@@ -27,15 +27,105 @@ Busqueda::Busqueda(vector<vector<float>> _X, vector<vector<int>> _MR, int _k){
     num_vacios = k;
 }
 
-void Busqueda::calcularCentroidesIniciales(){
-    int a = X[0].size();
+// GLOBAL -------------------------------------------
+
+void Busqueda::mostrarResultado(){
+    this->desviacionGeneral();
+    this->funcionObjetivo();
+
+    cout<<"Resultado Busqueda: "<<endl;
+    cout<<"Desviación general (Tasa_C): "<<desviacion<<endl;
+    cout<<"Infeasability (Tasa_inf): "<<inf_total<<endl;
+    cout<<"Agregado: "<<obj<<endl;
+    cout<<"Tiempo: "<<time<<endl;
+    cout<<"Clusters: "<<endl;
 
     for(int i=0; i<k; i++){
-        for(int j=0; j<a; j++){
-            U[i][j] = Randfloat(0.0, 10.0);
+        cout<<"Cluster "<<i+1<<endl;
+        for(int j=0; j<C[i].size(); j++){
+            cout<<C[i][j]<<" ";
         }
+        cout<<endl;
     }
 }
+
+
+void Busqueda::calculoLambda(){
+
+    // Distancia max del conjunto
+    float D = 0;
+    // Número de restricciones
+    int R = LR.size();
+
+    for(int i=0; i < (n-1); i++){
+        for(int j=i+1; j<n; j++){
+            float d = distanciaEuclidea(X[i], X[j]);
+            if(d>D) D = d;
+        }
+    }
+
+    lambda = D/R;
+}
+
+
+void Busqueda::calcularCentroide(int a){
+    int n = U[a].size();
+    int n2 = C[a].size();
+    U[a] = vector<float>(n,0.0);
+    
+    // Recorro U
+    for(int i=0; i<n; i++)
+        for(int j=0; j<n2; j++)
+            U[a][i] += ( X[C[a][j]][i]/n2 );
+}
+
+
+void Busqueda::infeasibilityTotal(){
+    int size = LR.size();
+    inf_total = 0;
+
+    for(int i=0; i<size; i++ ){
+        if( LR[i][2] == 1 && S[LR[i][0]]!=S[LR[i][1]] )
+            inf_total++;
+        else if( LR[i][2] == -1 && S[LR[i][0]]==S[LR[i][1]] )
+            inf_total++;
+    }
+}
+
+
+void Busqueda::distanciaMediaIntraCluster(){
+
+    for(int i=0; i<k; i++){
+        int n = C[i].size();
+        c_ic[i] = 0;
+        for(int j=0; j<n; j++)
+            c_ic[i] += distanciaEuclidea(X[j], U[i])/n;
+    }
+}
+
+
+void Busqueda::desviacionGeneral(){
+
+    this->distanciaMediaIntraCluster();
+    desviacion = 0;
+
+    for(int i=0; i<k; i++)
+        desviacion += c_ic[i];
+
+    desviacion /= k;
+}
+
+
+void Busqueda::funcionObjetivo(){
+    desviacionGeneral();
+    infeasibilityTotal();
+
+    obj = (desviacion + inf_total*lambda);
+}
+
+
+
+// GREEDY -------------------------------------------
 
 void Busqueda::busquedaGreedy(){
     // Declaración de variables
@@ -96,6 +186,85 @@ void Busqueda::busquedaGreedy(){
     time = ( float(t1-t0)/CLOCKS_PER_SEC );
 }
 
+
+void Busqueda::calcularCentroidesIniciales(){
+    int a = X[0].size();
+
+    for(int i=0; i<k; i++){
+        for(int j=0; j<a; j++){
+            U[i][j] = Randfloat(0.0, 10.0);
+        }
+    }
+}
+
+
+priority_queue<ordena, vector<ordena>, compara_ordena> Busqueda::distancias(int a){
+    int n = U.size();
+    priority_queue<ordena, vector<ordena>, compara_ordena> out;
+
+    for(int i=0; i<n; i++){
+        ordena aux;
+        aux.cluster = i;
+        aux.distancia = distanciaEuclidea(X[a], U[i]);
+        aux.inf = infeasibilityUna(a, i); 
+        out.push(aux);
+    }
+
+    return out;
+}
+
+
+priority_queue<ordena, vector<ordena>, compara_ordena> Busqueda::distanciasVacios(int a){
+    int n = U.size();
+    priority_queue<ordena, vector<ordena>, compara_ordena> out;
+
+    for(int i=0; i<n; i++){
+        if(!C_vacios[i]){
+            ordena aux;
+            aux.cluster = i;
+            aux.distancia = distanciaEuclidea(X[a], U[i]);
+            aux.inf = infeasibilityUna(a, i); 
+            out.push(aux);
+        }
+    }
+
+    return out;
+}
+
+
+void Busqueda::aniadir(int inst, int cluster){
+
+    C[cluster].push_back(inst);
+    S[inst] = cluster;
+    if(!C_vacios[cluster]){
+        num_vacios--;
+        C_vacios[cluster] = true;
+    }
+}
+
+
+int Busqueda::infeasibilityUna(int a, int b){
+    int out = 0;
+    int size = MR[a].size();
+
+    for(int i=0; i<size; i++){
+        if(i!=a){
+            if(MR[a][i] == 1 && ( S[i]!=b && S[i]!=-1 )){
+                out++;
+            }
+            else if(MR[a][i] == -1 && S[i]==b){
+                out++;
+            }
+        }
+    }
+
+    return out;
+}
+
+
+
+// LOCAL --------------------------------------------
+
 void Busqueda::busquedaLocal(){
 
 	unsigned t0, t1;
@@ -137,154 +306,6 @@ void Busqueda::busquedaLocal(){
 	time = ( float(t1-t0)/CLOCKS_PER_SEC );
 }
 
-priority_queue<ordena, vector<ordena>, compara_ordena> Busqueda::distancias(int a){
-    int n = U.size();
-    priority_queue<ordena, vector<ordena>, compara_ordena> out;
-
-    for(int i=0; i<n; i++){
-        ordena aux;
-        aux.cluster = i;
-        aux.distancia = distanciaEuclidea(X[a], U[i]);
-        aux.inf = infeasibilityUna(a, i); 
-        out.push(aux);
-    }
-
-    return out;
-}
-
-priority_queue<ordena, vector<ordena>, compara_ordena> Busqueda::distanciasVacios(int a){
-    int n = U.size();
-    priority_queue<ordena, vector<ordena>, compara_ordena> out;
-
-    for(int i=0; i<n; i++){
-        if(!C_vacios[i]){
-            ordena aux;
-            aux.cluster = i;
-            aux.distancia = distanciaEuclidea(X[a], U[i]);
-            aux.inf = infeasibilityUna(a, i); 
-            out.push(aux);
-        }
-    }
-
-    return out;
-}
-
-void Busqueda::aniadir(int inst, int cluster){
-
-    C[cluster].push_back(inst);
-    S[inst] = cluster;
-    if(!C_vacios[cluster]){
-        num_vacios--;
-        C_vacios[cluster] = true;
-    }
-}
-
-void Busqueda::calcularCentroide(int a){
-    int n = U[a].size();
-    int n2 = C[a].size();
-    U[a] = vector<float>(n,0.0);
-    
-    // Recorro U
-    for(int i=0; i<n; i++)
-        for(int j=0; j<n2; j++)
-            U[a][i] += ( X[C[a][j]][i]/n2 );
-}
-
-int Busqueda::infeasibilityUna(int a, int b){
-    int out = 0;
-    int size = MR[a].size();
-
-    for(int i=0; i<size; i++){
-        if(i!=a){
-            if(MR[a][i] == 1 && ( S[i]!=b && S[i]!=-1 )){
-                out++;
-            }
-            else if(MR[a][i] == -1 && S[i]==b){
-                out++;
-            }
-        }
-    }
-
-    return out;
-}
-
-void Busqueda::infeasibilityTotal(){
-    int size = LR.size();
-    inf_total = 0;
-
-    for(int i=0; i<size; i++ ){
-        if( LR[i][2] == 1 && S[LR[i][0]]!=S[LR[i][1]] )
-            inf_total++;
-        else if( LR[i][2] == -1 && S[LR[i][0]]==S[LR[i][1]] )
-            inf_total++;
-    }
-}
-
-void Busqueda::distanciaMediaIntraCluster(){
-
-    for(int i=0; i<k; i++){
-        int n = C[i].size();
-        c_ic[i] = 0;
-        for(int j=0; j<n; j++)
-            c_ic[i] += distanciaEuclidea(X[j], U[i])/n;
-    }
-
-}
-
-void Busqueda::desviacionGeneral(){
-
-    this->distanciaMediaIntraCluster();
-    desviacion = 0;
-
-    for(int i=0; i<k; i++)
-        desviacion += c_ic[i];
-
-    desviacion /= k;
-}
-
-void Busqueda::mostrarResultado(){
-    this->desviacionGeneral();
-    this->funcionObjetivo();
-
-    cout<<"Resultado Busqueda: "<<endl;
-    cout<<"Desviación general (Tasa_C): "<<desviacion<<endl;
-    cout<<"Infeasability (Tasa_inf): "<<inf_total<<endl;
-    cout<<"Agregado: "<<obj<<endl;
-    cout<<"Tiempo: "<<time<<endl;
-    cout<<"Clusters: "<<endl;
-
-    for(int i=0; i<k; i++){
-        cout<<"Cluster "<<i+1<<endl;
-        for(int j=0; j<C[i].size(); j++){
-            cout<<C[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-}
-
-void Busqueda::funcionObjetivo(){
-    desviacionGeneral();
-    infeasibilityTotal();
-
-    obj = (desviacion + inf_total*lambda);
-}
-
-void Busqueda::calculoLambda(){
-
-    // Distancia max del conjunto
-    float D = 0;
-    // Número de restricciones
-    int R = LR.size();
-
-    for(int i=0; i < (n-1); i++){
-        for(int j=i+1; j<n; j++){
-            float d = distanciaEuclidea(X[i], X[j]);
-            if(d>D) D = d;
-        }
-    }
-
-    lambda = D/R;
-}
 
 void Busqueda::generarSolucionInicial(){
     
@@ -318,6 +339,7 @@ void Busqueda::generarSolucionInicial(){
 	for(int i=0; i<k; i++)
         calcularCentroide(i);
 }
+
 
 float Busqueda::recalcularF(const pair<int,int> &cambio){
 	int cluster_nuevo = cambio.second;
@@ -360,6 +382,7 @@ float Busqueda::recalcularF(const pair<int,int> &cambio){
 
     return out;
 }
+
 
 vector<pair<int,int>> Busqueda::generamosVecindario(){
 	vector<pair<int,int>> out(0);
