@@ -17,21 +17,13 @@ void Local::realizarBusqueda(){
 		int size = V.size();
 		encontrado = false;
 		float new_f = 0;
-		int cambio;
 
 		for(int i=0; i<size && !encontrado && contador>0; i++){
 			// Calcular nuevo objetivo
 			contador--;
+            float ant_obj = obj;
 			new_f = recalcularF(V[i]);
-			if(new_f > obj){
-				encontrado = true;
-				cambio = i;
-			}
-		}
-
-		if(encontrado){
-			S[V[cambio].first] = V[cambio].second;
-			obj = new_f;
+            encontrado = new_f < ant_obj;
 		}
 
     }while(encontrado);
@@ -85,17 +77,19 @@ float Local::recalcularF(const pair<int,int> &cambio){
 
     cp.U = this->U;
     cp.C = this->C;
+    cp.S = this->S;
     cp.c_ic = this->c_ic;
     cp.obj = this->obj;
     cp.desviacion = this->desviacion;
     cp.inf_total = this->inf_total;
 
     // Recalcula C
-    for(int i=0; i<k; i++){
+    for(int i=0; i<C[cluster_anterior].size(); i++){
         if( C[cluster_anterior][i] == instancia)
             C[cluster_anterior].erase(C[cluster_anterior].begin()+i);
     }
     C[cluster_nuevo].push_back(instancia);
+    S[instancia] = cluster_nuevo;
 
     // Recalcula centroides
     calcularCentroide(cluster_anterior);
@@ -106,9 +100,10 @@ float Local::recalcularF(const pair<int,int> &cambio){
 
     float out = obj;
 
-    if(obj<cp.obj){
+    if(obj>cp.obj){
         this->U = cp.U;
         this->C = cp.C;
+        this->S = cp.S;
         this->c_ic = cp.c_ic;
         this->obj = cp.obj;
         this->desviacion = cp.desviacion;

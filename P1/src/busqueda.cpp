@@ -15,7 +15,7 @@ Busqueda::Busqueda(vector<vector<float>> _X, vector<vector<int>> _MR, int _k){
         this->n = X.size();
     else{
         cout<<"Conjunto de datos vacío"<<endl;
-         assert(true);
+        assert(false);
     }
     
     this->S = vector<int>(n);
@@ -94,10 +94,10 @@ void Busqueda::infeasibilityTotal(){
 void Busqueda::distanciaMediaIntraCluster(){
 
     for(int i=0; i<k; i++){
-        int n = C[i].size();
+        int size = C[i].size();
         c_ic[i] = 0;
-        for(int j=0; j<n; j++)
-            c_ic[i] += distanciaEuclidea(X[j], U[i])/n;
+        for(int j=0; j<size; j++)
+            c_ic[i] += distanciaEuclidea(X[C[i][j]], U[i])/size;
     }
 }
 

@@ -27,7 +27,5 @@ vector<vector<T>> leerDatos(string s){
     
     f.close();
 
-    cout<<s<<" leído"<<endl;
-
     return out;
 }
