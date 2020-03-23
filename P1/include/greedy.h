@@ -3,6 +3,29 @@
 
 #include "busqueda.h"
 
+/**
+ * Estructura para ordenar las opciones a tomar en el greedy
+ */
+struct ordena{
+    int cluster;
+    int inf;
+    float distancia;
+};
+
+struct compara_ordena{
+
+    bool operator()(ordena const& p1, ordena const& p2){
+        bool out = false;
+
+        if( p1.inf > p2.inf || (p1.inf == p2.inf && p1.distancia > p2.distancia) )
+            out = true;
+        else
+            out = false;
+
+        return out;
+    }
+};
+
 class Greedy : public Busqueda {
 
     public:

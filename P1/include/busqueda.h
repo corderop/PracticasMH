@@ -42,7 +42,7 @@ class Busqueda{
         vector<vector<int>> C;
         // Solución búsqueda local
         vector<int> S;
-        // Número de componentes de cada instancia de X
+        // Número de instancias
         int n;
         // Número de clusters
         int k;

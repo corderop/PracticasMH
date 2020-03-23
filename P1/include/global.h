@@ -25,34 +25,4 @@ float distanciaEuclidea(const vector<float> &a, const vector<float> &b);
  */
 void generarVector(vector<int> &v, int n);
 
-struct ordena{
-    int cluster;
-    int inf;
-    float distancia;
-};
-
-struct compara_ordena{
-
-    bool operator()(ordena const& p1, ordena const& p2){
-        bool out = false;
-
-        if( p1.inf > p2.inf || (p1.inf == p2.inf && p1.distancia > p2.distancia) )
-            out = true;
-        else
-            out = false;
-
-        return out;
-    }
-};
-
-struct copia{
-    vector<vector<float>> U;
-    vector<vector<int>> C;
-    vector<int> S;
-    vector<float> c_ic;
-    float obj;
-    float desviacion;
-    int inf_total;
-};
-
 #endif
