@@ -72,9 +72,11 @@ void Busqueda::calcularCentroide(int a){
     U[a] = vector<float>(n,0.0);
     
     // Recorro U
-    for(int i=0; i<n; i++)
+    for(int i=0; i<n; i++){
         for(int j=0; j<n2; j++)
-            U[a][i] += ( X[C[a][j]][i]/n2 );
+            U[a][i] += X[C[a][j]][i];
+        U[a][i] /= n2;
+    }
 }
 
 

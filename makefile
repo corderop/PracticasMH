@@ -50,7 +50,6 @@ bl_iris: $(_EXE)
 bl_ecoli: $(_EXE)
 	$(_EXE) bl ecoli 10
 
-
 ##########################################
 # Extración de datos para tablas		
 ##########################################
