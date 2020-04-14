@@ -56,7 +56,7 @@ void Greedy::realizarBusqueda(){
     
     t1 = clock();
 
-    time = ( float(t1-t0)/CLOCKS_PER_SEC );
+    time = ( double(t1-t0)/CLOCKS_PER_SEC );
 }
 
 
@@ -65,7 +65,7 @@ void Greedy::calcularCentroidesIniciales(){
 
     for(int i=0; i<k; i++){
         for(int j=0; j<a; j++){
-            U[i][j] = Randfloat(0.0, 10.0);
+            U[i][j] = Randdouble(0.0, 10.0);
         }
     }
 }

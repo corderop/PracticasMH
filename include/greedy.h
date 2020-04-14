@@ -9,7 +9,7 @@
 struct ordena{
     int cluster;
     int inf;
-    float distancia;
+    double distancia;
 };
 
 struct compara_ordena{
@@ -36,7 +36,7 @@ class Greedy : public Busqueda {
          * @param _MR Matriz de restricciones
          * @param _k Número de clusters
          */
-        Greedy(vector<vector<float>> _X, vector<vector<int>> _MR, int _k) 
+        Greedy(vector<vector<double>> _X, vector<vector<int>> _MR, int _k) 
             : Busqueda(_X, _MR, _k){};    
 
         /**

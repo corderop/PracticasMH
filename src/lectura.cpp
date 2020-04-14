@@ -18,7 +18,7 @@ vector<vector<T>> leerDatos(string s){
             stringstream st(line);
 
             while(getline(st, line, ',')){
-                if (is_same<T, float>::value){ v_line.push_back(stof(line)); }
+                if (is_same<T, double>::value){ v_line.push_back(stof(line)); }
                 else if(is_same<T, int>::value){ v_line.push_back(stoi(line)); }
             }
             

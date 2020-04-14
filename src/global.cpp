@@ -24,8 +24,8 @@ void generarVector(vector<int> &v, int n){
     random_shuffle(v.begin(), v.end());
 }
 
-float distanciaEuclidea(const vector<float> &a, const vector<float> &b){
-    float sum=0;
+double distanciaEuclidea(const vector<double> &a, const vector<double> &b){
+    double sum=0;
     int n = a.size();
 
     for(int i=0; i<n; i++)

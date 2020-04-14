@@ -15,7 +15,7 @@ class Busqueda{
          * @param _MR Matriz de restricciones
          * @param _k Número de clusters
          */
-        Busqueda(vector<vector<float>> _X, vector<vector<int>> _MR, int _k);
+        Busqueda(vector<vector<double>> _X, vector<vector<int>> _MR, int _k);
 
         // GLOBAL -------------------------------------------
 
@@ -32,9 +32,9 @@ class Busqueda{
     protected:
 
         // Conjunto de datos
-        vector<vector<float>> X;
+        vector<vector<double>> X;
         // Centroides
-        vector<vector<float>> U;
+        vector<vector<double>> U;
         // Conjunto de restricciones
         vector<vector<int>> MR;
         vector<vector<int>> LR;
@@ -49,19 +49,19 @@ class Busqueda{
         // Infeasibility total
         int inf_total;
         // Desviación general de la particion
-        float desviacion;
+        double desviacion;
         // Tiempo
-        float time;
+        double time;
         // Valor objetivos
-        float obj;
+        double obj;
         // Clusters vacios
         vector<bool> C_vacios;
         // Número de clusters vacíos en un momento
         int num_vacios;
         // Distancia media intracluster
-        vector<float> c_ic;
+        vector<double> c_ic;
         // Factor
-        float lambda;
+        double lambda;
         // Número de elementos en cada cluster
         vector<int> n_c;
 

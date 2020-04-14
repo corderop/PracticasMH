@@ -16,7 +16,7 @@ vector<vector<int>> restriccionesALista(const vector<vector<int>> &m);
  * @param b Vector 2
  * @return Distancia
  */
-float distanciaEuclidea(const vector<float> &a, const vector<float> &b);
+double distanciaEuclidea(const vector<double> &a, const vector<double> &b);
 
 /**
  * @brief Genera un vector aleatorio que contenga componentes de 0 a n-1

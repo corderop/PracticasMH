@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
     Set_random(seed);
     
     // Variables principales
-    vector<vector<float>> data = leerDatos<float>("data/" + conjunto + "_set.dat");
+    vector<vector<double>> data = leerDatos<double>("data/" + conjunto + "_set.dat");
     vector<vector<int>> restricciones = leerDatos<int>("data/" + conjunto + "_set_const_" + rest + ".const");
     vector<vector<int>> lista_rest = restriccionesALista(restricciones);
 

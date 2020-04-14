@@ -1,12 +1,12 @@
 #include "busqueda.h"
 
-Busqueda::Busqueda(vector<vector<float>> _X, vector<vector<int>> _MR, int _k){
+Busqueda::Busqueda(vector<vector<double>> _X, vector<vector<int>> _MR, int _k){
     this->X = _X;
     this->MR = _MR;
     this->LR = restriccionesALista(MR);
     this->k = _k;
     this->C = vector<vector<int>>(k, vector<int>(0));
-    this->c_ic = vector<float>(k);
+    this->c_ic = vector<double>(k);
     inf_total = 0;
     time = 0;
     n_c = vector<int>(k,0);
@@ -19,7 +19,7 @@ Busqueda::Busqueda(vector<vector<float>> _X, vector<vector<int>> _MR, int _k){
     }
     
     this->S = vector<int>(n);
-    this->U = vector<vector<float>>(k, vector<float>(X[0].size()));
+    this->U = vector<vector<double>>(k, vector<double>(X[0].size()));
 
     calculoLambda();
 
@@ -51,13 +51,13 @@ void Busqueda::mostrarResultado(){
 void Busqueda::calculoLambda(){
 
     // Distancia max del conjunto
-    float D = 0;
+    double D = 0;
     // Número de restricciones
     int R = LR.size();
 
     for(int i=0; i < (n-1); i++){
         for(int j=i+1; j<n; j++){
-            float d = distanciaEuclidea(X[i], X[j]);
+            double d = distanciaEuclidea(X[i], X[j]);
             if(d>D) D = d;
         }
     }
@@ -69,7 +69,7 @@ void Busqueda::calculoLambda(){
 void Busqueda::calcularCentroide(int a){
     int n = U[a].size();
     int n2 = C[a].size();
-    U[a] = vector<float>(n,0.0);
+    U[a] = vector<double>(n,0.0);
     
     // Recorro U
     for(int i=0; i<n; i++){
@@ -107,12 +107,12 @@ void Busqueda::distanciaMediaIntraCluster(){
 void Busqueda::desviacionGeneral(){
 
     this->distanciaMediaIntraCluster();
-    desviacion = 0;
+    this->desviacion = 0;
 
     for(int i=0; i<k; i++)
-        desviacion += c_ic[i];
+        this->desviacion += c_ic[i];
 
-    desviacion /= k;
+    this->desviacion /= k;
 }
 
 

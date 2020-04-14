@@ -16,12 +16,12 @@ void Local::realizarBusqueda(){
 		vector<pair<int,int>> V = generamosVecindario();
 		int size = V.size();
 		encontrado = false;
-		float new_f = 0;
+		double new_f = 0;
 
 		for(int i=0; i<size && !encontrado && contador>0; i++){
 			// Calcular nuevo objetivo
 			contador--;
-            float ant_obj = obj;
+            double ant_obj = obj;
 			new_f = recalcularF(V[i]);
             encontrado = new_f < ant_obj;
 		}
@@ -30,7 +30,7 @@ void Local::realizarBusqueda(){
 
 	t1 = clock();
 
-	time = ( float(t1-t0)/CLOCKS_PER_SEC );
+	time = ( double(t1-t0)/CLOCKS_PER_SEC );
 }
 
 
@@ -68,7 +68,7 @@ void Local::generarSolucionInicial(){
 }
 
 
-float Local::recalcularF(const pair<int,int> &cambio){
+double Local::recalcularF(const pair<int,int> &cambio){
 	int cluster_nuevo = cambio.second;
 	int cluster_anterior = S[cambio.first];
 	int instancia = cambio.first;
@@ -98,7 +98,7 @@ float Local::recalcularF(const pair<int,int> &cambio){
     // Calcula la nueva funcion obj
     funcionObjetivo();
 
-    float out = obj;
+    double out = obj;
 
     if(obj>cp.obj){
         this->U = cp.U;

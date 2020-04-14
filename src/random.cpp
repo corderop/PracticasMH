@@ -20,7 +20,7 @@ unsigned long Get_random (void)
     return Seed;
 }
 
-float Rand(void)
+double Rand(void)
 /* Genera un numero aleatorio real en el intervalo [0,1[
    (incluyendo el 0 pero sin incluir el 1) */
 {
@@ -33,7 +33,7 @@ int Randint(int low, int high)
     return (int) (low + (high-(low)+1) * Rand());
 }
 
-float Randfloat(float low, float high)
+double Randdouble(double low, double high)
 /* Genera un numero aleatorio real en el intervalo [low,...,high[
    (incluyendo 'low' pero sin incluir 'high') */
 {

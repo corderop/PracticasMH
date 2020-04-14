@@ -13,7 +13,7 @@ class Local : public Busqueda {
          * @param _MR Matriz de restricciones
          * @param _k Número de clusters
          */
-        Local(vector<vector<float>> _X, vector<vector<int>> _MR, int _k) 
+        Local(vector<vector<double>> _X, vector<vector<int>> _MR, int _k) 
             : Busqueda(_X, _MR, _k){};    
 
         /**
@@ -31,7 +31,7 @@ class Local : public Busqueda {
         /**
          * @brief Recalcula F para un cambio
          */
-        float recalcularF(const pair<int,int> &cambio);
+        double recalcularF(const pair<int,int> &cambio);
 
         /**
          * @brief Generamos el vecindario
@@ -41,12 +41,12 @@ class Local : public Busqueda {
 };
 
 struct copia{
-    vector<vector<float>> U;
+    vector<vector<double>> U;
     vector<vector<int>> C;
     vector<int> S;
-    vector<float> c_ic;
-    float obj;
-    float desviacion;
+    vector<double> c_ic;
+    double obj;
+    double desviacion;
     int inf_total;
 };
 

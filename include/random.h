@@ -12,13 +12,13 @@ unsigned long Get_random (void);
 
 /* Genera un numero aleatorio real en el intervalo [0,1[
    (incluyendo el 0 pero sin incluir el 1) */
-float Rand(void);
+double Rand(void);
 
 /* Genera un numero aleatorio entero en {low,...,high} */
 int Randint(int low, int high);
 
 /* Genera un numero aleatorio real en el intervalo [low,...,high[
    (incluyendo 'low' pero sin incluir 'high') */
-float Randfloat(float low, float high);
+double Randdouble(double low, double high);
 
 #endif
