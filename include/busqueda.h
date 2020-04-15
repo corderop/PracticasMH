@@ -104,6 +104,7 @@ struct Solucion{
     vector<vector<int>> C;
     vector<int> S;
     vector<double> c_ic;
+    vector<int> n_c;
     double obj;
     double desviacion;
     int inf_total;

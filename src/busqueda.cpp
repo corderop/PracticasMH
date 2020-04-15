@@ -39,7 +39,7 @@ void Busqueda::mostrarResultado(){
     cout<<"Clusters: "<<endl;
 
     for(int i=0; i<k; i++){
-        cout<<"Cluster "<<i+1<<endl;
+        cout<<"Cluster "<<i+1<<" num: "<<n_c[i]<<endl;
         for(int j=0; j<C[i].size(); j++){
             cout<<C[i][j]<<" ";
         }
@@ -99,7 +99,8 @@ void Busqueda::distanciaMediaIntraCluster(){
         int size = C[i].size();
         c_ic[i] = 0;
         for(int j=0; j<size; j++)
-            c_ic[i] += distanciaEuclidea(X[C[i][j]], U[i])/size;
+            c_ic[i] += distanciaEuclidea(X[C[i][j]], U[i]);
+        c_ic[i] /= size;
     }
 }
 

@@ -82,6 +82,7 @@ double Local::recalcularF(const pair<int,int> &cambio){
     cp.obj = this->obj;
     cp.desviacion = this->desviacion;
     cp.inf_total = this->inf_total;
+    cp.n_c = this->n_c;
 
     // Recalcula C
     for(int i=0; i<C[cluster_anterior].size(); i++){
@@ -90,6 +91,9 @@ double Local::recalcularF(const pair<int,int> &cambio){
     }
     C[cluster_nuevo].push_back(instancia);
     S[instancia] = cluster_nuevo;
+    
+    n_c[cluster_anterior]--;
+    n_c[cluster_nuevo]++;
 
     // Recalcula centroides
     calcularCentroide(cluster_anterior);
@@ -108,6 +112,7 @@ double Local::recalcularF(const pair<int,int> &cambio){
         this->obj = cp.obj;
         this->desviacion = cp.desviacion;
         this->inf_total = cp.inf_total;
+        this->n_c = cp.n_c;
     }
 
     return out;
