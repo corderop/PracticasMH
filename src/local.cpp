@@ -73,7 +73,7 @@ double Local::recalcularF(const pair<int,int> &cambio){
 	int cluster_anterior = S[cambio.first];
 	int instancia = cambio.first;
     
-    copia cp;
+    Solucion cp;
 
     cp.U = this->U;
     cp.C = this->C;

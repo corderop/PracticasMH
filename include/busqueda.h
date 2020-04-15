@@ -40,7 +40,7 @@ class Busqueda{
         vector<vector<int>> LR;
         // Reparto por clusters
         vector<vector<int>> C;
-        // Solución búsqueda local
+        // Solución en vector
         vector<int> S;
         // Número de instancias
         int n;
@@ -97,5 +97,15 @@ class Busqueda{
          */
         void funcionObjetivo();
 
+};
+
+struct Solucion{
+    vector<vector<double>> U;
+    vector<vector<int>> C;
+    vector<int> S;
+    vector<double> c_ic;
+    double obj;
+    double desviacion;
+    int inf_total;
 };
 #endif

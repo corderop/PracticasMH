@@ -40,14 +40,4 @@ class Local : public Busqueda {
 
 };
 
-struct copia{
-    vector<vector<double>> U;
-    vector<vector<int>> C;
-    vector<int> S;
-    vector<double> c_ic;
-    double obj;
-    double desviacion;
-    int inf_total;
-};
-
 #endif
