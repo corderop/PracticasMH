@@ -108,5 +108,13 @@ struct Solucion{
     double obj;
     double desviacion;
     int inf_total;
+
+    bool operator<(const Solucion &s2){
+        return obj < s2.obj;
+    }
+
+    bool operator>(const Solucion &s2){
+        return obj > s2.obj;
+    }
 };
 #endif
