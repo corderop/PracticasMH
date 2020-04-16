@@ -11,29 +11,31 @@ class Poblaciones : public Busqueda {
          * @brief Inicializa los datos necesarios
          */
         Poblaciones(vector<vector<double>> _X, vector<vector<int>> _MR, int _k) 
-            : Busqueda(_X, _MR, _k){};    
+            : Busqueda(_X, _MR, _k){};
 
         /**
          * @brief Realiza la búsqueda del resultado
          */
         void realizarBusqueda();
 
-    protected:
+    // protected:
 
         // Tamaño de la población
-        const int M = 50;
+        const int M = 3;
         // Probabilidad de cruce
         const double P_c = 0.7;
         // Probabilidad de mutación
         const double P_m = 0.001;
         // Población actual
         vector<Solucion> P;
-        // Solución candidata
+        // Padres
         vector<Solucion> P_t;
         // Solución mas alta
         int sol_max = 0;
         // Solución más baja
-        int sol_min = 0;
+        int mejor_sol = 0;
+        // Padres max
+        int mejor_pad = 0;
         // Generación
         int t;
 
@@ -61,8 +63,11 @@ class Poblaciones : public Busqueda {
 
         /**
          * @brief Operador de cruce
+         * @param Padre 1
+         * @param Padre 2
+         * @return Veces que ha recalculado la función objetivo
          */
-        void cruceUniforme(const Solucion &p1, const Solucion &p2);
+        int cruceUniforme(const Solucion &p1, const Solucion &p2);
 
         /**
          * @brief Genera cromosomas
@@ -76,8 +81,10 @@ class Poblaciones : public Busqueda {
 
         /**
          * @brief Realiza la mutación uniforme
+         * @param c Número de cromosoma
+         * @param g Número de gen
          */
-        void mutacion();
+        void mutacion(int c, int g);
         
 };
 

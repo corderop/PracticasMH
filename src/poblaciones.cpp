@@ -14,13 +14,26 @@ void Poblaciones::realizarBusqueda(){
         P = vector<Solucion>(0);
 
         // Realizamos el cruce
-        for(int i=0; i<P_t.size()-1; i++){
-            cruceUniforme(P_t[i], P_t[i+1]);
-            evaluaciones += 2;
+        int no_cruces = P_c*(M/2);
+        for(int i=0; i<no_cruces; i++){
+            int j = i*2;
+            evaluaciones += cruceUniforme(P_t[j], P_t[j+1]);
         }
+        for(int i=no_cruces*2; i<M-1; i++){
+            P.push_back(P_t[i]);
+        }
+        if(mejor_pad < no_cruces*2)
+            P.push_back(P_t[mejor_pad]);
+        else
+            P.push_back(P_t[M-1]);
 
-        // Mutación
-        mutacion();
+        int no_mutaciones = P_m*M*n;
+        for(int i=0; i<no_mutaciones; i++){
+            int r1 = Randint(0,M-1),
+                r2 = Randint(0,n-1);
+            mutacion(r1,r2);
+            evaluaciones++;
+        }
     }
 
 }
@@ -95,10 +108,8 @@ int Poblaciones::evaluarPoblacion(){
     for(int i=0; i<M; i++){
         evaluarSolucion(this->P[i]);
         // Comprobar que esto funcione
-        if(this->P[i] < this->P[this->sol_min])
-            this->sol_min = i;
-        else if(this->P[i] > this->P[this->sol_max])
-            this->sol_max = i;
+        // if(this->P[i] < this->P[this->mejor_sol])
+        //     this->mejor_sol = i;
         evaluaciones++;
     }
 
@@ -134,17 +145,24 @@ void Poblaciones::torneoBinario(){
     for(int i=0 ; i<M; i++){
         int a = Randint(0, M-1),
             b = Randint(0, M-1);
-        
+        mejor_pad = 0;
         // Seleccionamos el mejor
-        if(this->P[a] > P[b])
+        if(this->P[a] > P[b]){
             P_t.push_back(P[a]);
-        else
+            if(P[a] < P[mejor_pad])
+                mejor_pad = i;
+        }
+        else{
             P_t.push_back(P[b]);
+            if(P[b] < P[mejor_pad])
+                mejor_pad = i;
+        }
     }
 }
 
-void Poblaciones::cruceUniforme(const Solucion &p1, const Solucion &p2){
+int Poblaciones::cruceUniforme(const Solucion &p1, const Solucion &p2){
     Solucion hijo1, hijo2;
+    int calculoObjetivo = 0;
 
     // Toma la aleatoreidad de genes en un vector
     vector<int> out(n);
@@ -196,7 +214,12 @@ void Poblaciones::cruceUniforme(const Solucion &p1, const Solucion &p2){
     hijo2.n_c = this->n_c;
 
     P.push_back(hijo2);
+    calculoObjetivo = 2;
+
+    return calculoObjetivo;
 }
+
+// int cruceSegmentoFijo
 
 void Poblaciones::recalcularSolucion(){
     this->C = vector<vector<int>>(k, vector<int>(0));
@@ -237,3 +260,31 @@ void Poblaciones::recalcularSolucion(){
     for(int i=0; i<this->C.size(); i++)
         calcularCentroide(i);
 }
+
+void Poblaciones::mutacion(int c, int g){
+    // Comprueba que no deje un cluster vacio
+    while(P[c].n_c[P[c].S[g]] > 1){
+        g = Randint(0,n-1);
+    }
+    
+    this->S = P[c].S;
+    this->S[g] = Randint(0,k-1);
+
+    recalcularSolucion();
+    funcionObjetivo();
+
+    P.erase(P.begin()+c);
+    Solucion mut;
+
+    mut.U = this->U;              
+    mut.C = this->C;              
+    mut.S = this->S;              
+    mut.c_ic = this->c_ic;        
+    mut.obj = this->obj;
+    mut.desviacion = this->desviacion;
+    mut.inf_total = this->inf_total;
+    mut.n_c = this->n_c;
+
+    P.push_back(mut);
+}
+

@@ -3,12 +3,14 @@
 #include "lectura.h"
 #include "greedy.h"
 #include "local.h"
+#include "poblaciones.h"
 
 using namespace std;
 
-// int main(int argc, char* argv[]){
+int main(int argc, char* argv[]){
 
-//     int seed = time(NULL);
+    int seed = time(NULL);
+    seed = atoi(argv[1]);
 //     string S,
 //            conjunto,
 //            rest;
@@ -28,15 +30,16 @@ using namespace std;
 //     }
 
 //     // Inicialización de semillas aleatorias
-//     srand(seed);
-//     Set_random(seed);
-    
+    srand(seed);
+    Set_random(seed);
+    string conjunto = "prueba";
+    string rest = "10";
 //     // Variables principales
-//     vector<vector<double>> data = leerDatos<double>("data/" + conjunto + "_set.dat");
-//     vector<vector<int>> restricciones = leerDatos<int>("data/" + conjunto + "_set_const_" + rest + ".const");
-//     vector<vector<int>> lista_rest = restriccionesALista(restricciones);
+    vector<vector<double>> data = leerDatos<double>("data/" + conjunto + "_set.dat");
+    vector<vector<int>> restricciones = leerDatos<int>("data/" + conjunto + "_set_const_" + rest + ".const");
+    vector<vector<int>> lista_rest = restriccionesALista(restricciones);
 
-//     int clusters = (conjunto == "ecoli") ? 8 : 3 ;
+    // int clusters = (conjunto == "ecoli") ? 8 : 3 ;
 
 //     cout<<"--------------------------------"<<endl;
 //     if(S == "g"){
@@ -50,4 +53,13 @@ using namespace std;
 //         lcl.mostrarResultado();
 //     }
 //     cout<<"--------------------------------"<<endl;
-// }
+
+    Poblaciones p(data,restricciones,3);
+    int a;
+
+    cout<<"--------------------------------"<<endl;
+
+    p.realizarBusqueda();
+    
+    cout<<"--------------------------------"<<endl;
+}
