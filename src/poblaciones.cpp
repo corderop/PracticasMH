@@ -2,17 +2,25 @@
 
 void Poblaciones::realizarBusqueda(){
     int evaluaciones = 0;
+    t = 0;
 
     generarPoblacionInicial();
     evaluaciones += evaluarPoblacion();
     
     while(evaluaciones < 100000){
-
+        t++;
+        // Realizamos la selección
+        torneoBinario();
+        
+        // Realizamos el cruce
+        
     }
 
 }
 
 void Poblaciones::generarPoblacionInicial(){
+    P = vector<Solucion>(0);
+
     for(int i=0; i<this->M; i++){
         this->generarSolucionInicial();
 
@@ -33,6 +41,14 @@ void Poblaciones::generarPoblacionInicial(){
 
 
 void Poblaciones::generarSolucionInicial(){
+    this->C = vector<vector<int>>(k, vector<int>(0));
+    this->c_ic = vector<double>(k);
+    this->inf_total = 0;
+    this->S = vector<int>(n);
+    this->U = vector<vector<double>>(k, vector<double>(X[0].size()));
+    this->num_vacios = k;
+    this->n_c = vector<int>(k,0);
+    this->C_vacios = vector<bool>(k, false);
 
     for(int i=0; i<n; i++){
         if( (n-i) != num_vacios ){
@@ -107,4 +123,17 @@ void Poblaciones::evaluarSolucion(Solucion &s){
     s.n_c = this->n_c;          // Probablemente se pueda quitar
 }
 
-// Comparación de soluciones
+void Poblaciones::torneoBinario(){
+    for(int i=0 ; i<M; i++){
+        int a = Randint(0, M-1),
+            b = Randint(0, M-1);
+        
+        // Seleccionamos el mejor
+        if(this->P[a] > P[b])
+            P_t.push_back(P[a]);
+        else
+            P_t.push_back(P[b]);
+    }
+}
+
+

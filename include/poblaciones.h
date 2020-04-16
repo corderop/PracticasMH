@@ -27,12 +27,20 @@ class Poblaciones : public Busqueda {
 
         // Tamaño de la población
         const int M = 50;
+        // Probabilidad de cruce
+        const double P_c = 0.7;
+        // Probabilidad de mutación
+        const double P_m = 0.001;
         // Población actual
         vector<Solucion> P;
+        // Solución candidata
+        vector<Solucion> P_t;
         // Solución mas alta
         int sol_max = 0;
         // Solución más baja
         int sol_min = 0;
+        // Generación
+        int t;
 
         /**
          * @brief Genera la población inicial
@@ -50,6 +58,16 @@ class Poblaciones : public Busqueda {
          * @param s Solución a evaluar
          */
         void evaluarSolucion(Solucion &s);
+
+        /**
+         * @brief Torneo binario
+         */
+        void torneoBinario();
+
+        /**
+         * @brief Operador de cruce
+         */
+        void cruceUniforme();
 };
 
 #endif

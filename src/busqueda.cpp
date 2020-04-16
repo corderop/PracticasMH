@@ -28,7 +28,6 @@ Busqueda::Busqueda(vector<vector<double>> _X, vector<vector<int>> _MR, int _k){
 }
 
 void Busqueda::mostrarResultado(){
-    this->desviacionGeneral();
     this->funcionObjetivo();
 
     cout<<"Resultado Busqueda: "<<endl;

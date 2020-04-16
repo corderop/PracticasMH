@@ -116,5 +116,18 @@ struct Solucion{
     bool operator>(const Solucion &s2){
         return obj > s2.obj;
     }
+
+    Solucion& operator=(const Solucion &s2){
+        U = s2.U;
+        C = s2.C;
+        S = s2.S;
+        c_ic = s2.c_ic;
+        obj = s2.obj;
+        desviacion = s2.desviacion;
+        inf_total = s2.inf_total;
+        n_c = s2.n_c;
+
+        return *this;
+    }
 };
 #endif
