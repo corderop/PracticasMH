@@ -11,9 +11,16 @@ void Poblaciones::realizarBusqueda(){
         t++;
         // Realizamos la selección
         torneoBinario();
-        
+        P = vector<Solucion>(0);
+
         // Realizamos el cruce
-        
+        for(int i=0; i<P_t.size()-1; i++){
+            cruceUniforme(P_t[i], P_t[i+1]);
+            evaluaciones += 2;
+        }
+
+        // Mutación
+        mutacion();
     }
 
 }
@@ -136,4 +143,97 @@ void Poblaciones::torneoBinario(){
     }
 }
 
+void Poblaciones::cruceUniforme(const Solucion &p1, const Solucion &p2){
+    Solucion hijo1, hijo2;
 
+    // Toma la aleatoreidad de genes en un vector
+    vector<int> out(n);
+    iota(begin(out), end(out), 0);
+    random_shuffle(out.begin(), out.end());
+
+    for(int i=0; i<out.size(); i++){
+        if(i < n/2)
+            S[out[i]] = p1.S[out[i]];
+        else
+            S[out[i]] = p2.S[out[i]];
+    }
+
+    recalcularSolucion();
+    funcionObjetivo();
+    
+    hijo1.U = this->U;              
+    hijo1.C = this->C;              
+    hijo1.S = this->S;              
+    hijo1.c_ic = this->c_ic;        
+    hijo1.obj = this->obj;
+    hijo1.desviacion = this->desviacion;
+    hijo1.inf_total = this->inf_total;
+    hijo1.n_c = this->n_c;
+
+    P.push_back(hijo1);
+
+    out = vector<int>(n);
+    iota(begin(out), end(out), 0);
+    random_shuffle(out.begin(), out.end());
+
+    for(int i=0; i<out.size(); i++){
+        if(i < n/2)
+            S[out[i]] = p1.S[out[i]];
+        else
+            S[out[i]] = p2.S[out[i]];
+    }
+
+    recalcularSolucion();
+    funcionObjetivo();
+    
+    hijo2.U = this->U;              
+    hijo2.C = this->C;              
+    hijo2.S = this->S;              
+    hijo2.c_ic = this->c_ic;        
+    hijo2.obj = this->obj;
+    hijo2.desviacion = this->desviacion;
+    hijo2.inf_total = this->inf_total;
+    hijo2.n_c = this->n_c;
+
+    P.push_back(hijo2);
+}
+
+void Poblaciones::recalcularSolucion(){
+    this->C = vector<vector<int>>(k, vector<int>(0));
+    this->U = vector<vector<double>>(k, vector<double>(X[0].size()));
+    this->num_vacios = k;
+    this->n_c = vector<int>(k,0);
+    this->C_vacios = vector<bool>(k, false);
+
+    for(int i=0; i<this->S.size(); i++){
+        C[S[i]].push_back(i);
+        if(C[S[i]].size() == 1){
+            num_vacios--;
+            C_vacios[S[i]] = true;
+        }
+        n_c[S[i]]++;
+    }
+
+    // Si no hay ninguno vacio no entra
+    if(num_vacios != 0){
+        for(int i=0; i<C_vacios.size(); i++){
+            if(!C_vacios[i]){
+                int random;
+
+                do{
+                   random = Randint(0, C.size()-1); 
+                }while(n_c[random]>1);
+
+                int anterior = C[random][C[random].size()-1];
+                C[random].pop_back();
+                S[anterior] = i;
+                C[i].push_back(anterior);
+                num_vacios--;
+                C_vacios[i] = true;
+            }
+        }
+    }
+
+    for(int i=0; i<this->C.size(); i++)
+        calcularCentroide(i);
+}

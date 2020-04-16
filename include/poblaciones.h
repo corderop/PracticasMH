@@ -18,11 +18,6 @@ class Poblaciones : public Busqueda {
          */
         void realizarBusqueda();
 
-        /**
-         * @brief Genera cromosomas
-         */
-        void generarSolucionInicial();
-
     protected:
 
         // Tamaño de la población
@@ -67,7 +62,23 @@ class Poblaciones : public Busqueda {
         /**
          * @brief Operador de cruce
          */
-        void cruceUniforme();
+        void cruceUniforme(const Solucion &p1, const Solucion &p2);
+
+        /**
+         * @brief Genera cromosomas
+         */
+        void generarSolucionInicial();
+
+        /**
+         * @brief Recalcula la solución cuando se ha actualizado S
+         */
+        void recalcularSolucion();
+
+        /**
+         * @brief Realiza la mutación uniforme
+         */
+        void mutacion();
+        
 };
 
 #endif

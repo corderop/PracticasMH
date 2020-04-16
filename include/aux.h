@@ -9,6 +9,8 @@
 #include <cmath>
 #include <cassert>
 #include <ctime>
+#include <numeric>
+#include <random>
 
 // Estructuras
 #include <string>
