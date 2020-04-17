@@ -136,6 +136,7 @@ void Poblaciones::evaluarSolucion(Solucion &s){
 
 void Poblaciones::torneoBinario(){
     mejor_pad = 0;
+    P_t = vector<Solucion>(0);
 
     for(int i=0 ; i<M; i++){
         int a = Randint(0, M-1),
