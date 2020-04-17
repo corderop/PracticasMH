@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
 //     // Inicialización de semillas aleatorias
     srand(seed);
     Set_random(seed);
-    string conjunto = "prueba";
+    string conjunto = "rand";
     string rest = "10";
 //     // Variables principales
     vector<vector<double>> data = leerDatos<double>("data/" + conjunto + "_set.dat");
@@ -55,11 +55,13 @@ int main(int argc, char* argv[]){
 //     cout<<"--------------------------------"<<endl;
 
     Poblaciones p(data,restricciones,3);
-    int a;
+    p.realizarBusqueda();
+    p.mostrarResultado();
+    // int a;
 
     cout<<"--------------------------------"<<endl;
 
-    p.realizarBusqueda();
+    // p.realizarBusqueda();
     
     cout<<"--------------------------------"<<endl;
 }

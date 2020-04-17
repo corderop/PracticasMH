@@ -27,7 +27,7 @@ void Poblaciones::realizarBusqueda(){
         else
             P.push_back(P_t[M-1]);
 
-        int no_mutaciones = P_m*M*n;
+        float no_mutaciones = P_m*M*n;
         for(int i=0; i<no_mutaciones; i++){
             int r1 = Randint(0,M-1),
                 r2 = Randint(0,n-1);
@@ -35,6 +35,14 @@ void Poblaciones::realizarBusqueda(){
             evaluaciones++;
         }
     }
+
+    // Tomo la mejor solución
+    this->mejor_sol = 0;
+    for(int i=1; i<P.size(); i++)
+        if(P[i] < P[mejor_sol])
+            mejor_sol = i;
+
+    (*this) = P[mejor_sol];
 
 }
 
@@ -108,8 +116,6 @@ int Poblaciones::evaluarPoblacion(){
     for(int i=0; i<M; i++){
         evaluarSolucion(this->P[i]);
         // Comprobar que esto funcione
-        // if(this->P[i] < this->P[this->mejor_sol])
-        //     this->mejor_sol = i;
         evaluaciones++;
     }
 
@@ -118,43 +124,30 @@ int Poblaciones::evaluarPoblacion(){
 
 void Poblaciones::evaluarSolucion(Solucion &s){
     // Almacena en la clase como solución actual
-    this->U = s.U;
-    this->C = s.C;
-    this->S = s.S;
-    this->c_ic = s.c_ic;
-    this->obj = s.obj;
-    this->desviacion = s.desviacion;
-    this->inf_total = s.inf_total;
-    this->n_c = s.n_c;
+    (*this) = s;
 
     // Calcula la función objetivo
     this->funcionObjetivo();
 
     // Vuelve a copiar en s los valores con la función ya calculada
-    s.U = this->U;              // Probablemente se pueda quitar
-    s.C = this->C;              // Probablemente se pueda quitar
-    s.S = this->S;              // Probablemente se pueda quitar
-    s.c_ic = this->c_ic;        // Probablemente se pueda quitar
-    s.obj = this->obj;
-    s.desviacion = this->desviacion;
-    s.inf_total = this->inf_total;
-    s.n_c = this->n_c;          // Probablemente se pueda quitar
+    s = (*this);
 }
 
 void Poblaciones::torneoBinario(){
+    mejor_pad = 0;
+
     for(int i=0 ; i<M; i++){
         int a = Randint(0, M-1),
             b = Randint(0, M-1);
-        mejor_pad = 0;
         // Seleccionamos el mejor
-        if(this->P[a] > P[b]){
+        if(this->P[a] < P[b]){
             P_t.push_back(P[a]);
-            if(P[a] < P[mejor_pad])
+            if(P[a] < P_t[mejor_pad])
                 mejor_pad = i;
         }
         else{
             P_t.push_back(P[b]);
-            if(P[b] < P[mejor_pad])
+            if(P[b] < P_t[mejor_pad])
                 mejor_pad = i;
         }
     }
@@ -179,14 +172,7 @@ int Poblaciones::cruceUniforme(const Solucion &p1, const Solucion &p2){
     recalcularSolucion();
     funcionObjetivo();
     
-    hijo1.U = this->U;              
-    hijo1.C = this->C;              
-    hijo1.S = this->S;              
-    hijo1.c_ic = this->c_ic;        
-    hijo1.obj = this->obj;
-    hijo1.desviacion = this->desviacion;
-    hijo1.inf_total = this->inf_total;
-    hijo1.n_c = this->n_c;
+    hijo1 = (*this);
 
     P.push_back(hijo1);
 
@@ -204,22 +190,13 @@ int Poblaciones::cruceUniforme(const Solucion &p1, const Solucion &p2){
     recalcularSolucion();
     funcionObjetivo();
     
-    hijo2.U = this->U;              
-    hijo2.C = this->C;              
-    hijo2.S = this->S;              
-    hijo2.c_ic = this->c_ic;        
-    hijo2.obj = this->obj;
-    hijo2.desviacion = this->desviacion;
-    hijo2.inf_total = this->inf_total;
-    hijo2.n_c = this->n_c;
+    hijo2 = (*this);
 
     P.push_back(hijo2);
     calculoObjetivo = 2;
 
     return calculoObjetivo;
 }
-
-// int cruceSegmentoFijo
 
 void Poblaciones::recalcularSolucion(){
     this->C = vector<vector<int>>(k, vector<int>(0));
@@ -263,7 +240,7 @@ void Poblaciones::recalcularSolucion(){
 
 void Poblaciones::mutacion(int c, int g){
     // Comprueba que no deje un cluster vacio
-    while(P[c].n_c[P[c].S[g]] > 1){
+    while(P[c].n_c[P[c].S[g]] <= 1){
         g = Randint(0,n-1);
     }
     
@@ -276,15 +253,21 @@ void Poblaciones::mutacion(int c, int g){
     P.erase(P.begin()+c);
     Solucion mut;
 
-    mut.U = this->U;              
-    mut.C = this->C;              
-    mut.S = this->S;              
-    mut.c_ic = this->c_ic;        
-    mut.obj = this->obj;
-    mut.desviacion = this->desviacion;
-    mut.inf_total = this->inf_total;
-    mut.n_c = this->n_c;
+    mut = (*this);
 
     P.push_back(mut);
 }
 
+
+Poblaciones& Poblaciones::operator=(const Solucion &s){
+    this->U = s.U;
+    this->C = s.C;
+    this->S = s.S;
+    this->c_ic = s.c_ic;
+    this->obj = s.obj;
+    this->desviacion = s.desviacion;
+    this->inf_total = s.inf_total;
+    this->n_c = s.n_c;
+ 
+    return *this;
+}

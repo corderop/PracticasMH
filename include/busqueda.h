@@ -4,6 +4,8 @@
 #include "aux.h"
 #include "global.h"
 
+struct Solucion;
+
 class Busqueda{
 
 
@@ -97,6 +99,7 @@ class Busqueda{
          */
         void funcionObjetivo();
 
+        friend class Solucion;
 };
 
 struct Solucion{
@@ -128,6 +131,19 @@ struct Solucion{
         n_c = s2.n_c;
 
         return *this;
+    }
+
+    Solucion& operator=(const Busqueda &b){
+        this->U = b.U;              
+        this->C = b.C;              
+        this->S = b.S;              
+        this->c_ic = b.c_ic;        
+        this->obj = b.obj;
+        this->desviacion = b.desviacion;
+        this->inf_total = b.inf_total;
+        this->n_c = b.n_c;       
+
+        return *this;   
     }
 };
 #endif

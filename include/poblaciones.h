@@ -18,10 +18,10 @@ class Poblaciones : public Busqueda {
          */
         void realizarBusqueda();
 
-    // protected:
+    protected:
 
         // Tamaño de la población
-        const int M = 3;
+        const int M = 50;
         // Probabilidad de cruce
         const double P_c = 0.7;
         // Probabilidad de mutación
@@ -85,7 +85,8 @@ class Poblaciones : public Busqueda {
          * @param g Número de gen
          */
         void mutacion(int c, int g);
-        
+
+        Poblaciones& operator=(const Solucion &s);
 };
 
 #endif
