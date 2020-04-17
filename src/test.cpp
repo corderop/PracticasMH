@@ -11,6 +11,7 @@ int main(int argc, char* argv[]){
 
     int seed = time(NULL);
     seed = atoi(argv[1]);
+    // seed = 120;
 //     string S,
 //            conjunto,
 //            rest;

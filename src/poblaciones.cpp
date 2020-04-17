@@ -11,7 +11,7 @@ void Poblaciones::realizarBusqueda(){
         t++;
         // Realizamos la selección
         torneoBinario();
-        P = vector<Solucion>(0);
+        P.resize(0);
 
         // Realizamos el cruce
         int no_cruces = P_c*(M/2);
@@ -48,6 +48,7 @@ void Poblaciones::realizarBusqueda(){
 
 void Poblaciones::generarPoblacionInicial(){
     P = vector<Solucion>(0);
+    P.reserve(M);
 
     for(int i=0; i<this->M; i++){
         this->generarSolucionInicial();
@@ -153,7 +154,7 @@ void Poblaciones::torneoBinario(){
     }
 }
 
-int Poblaciones::cruceUniforme(const Solucion &p1, const Solucion &p2){
+int Poblaciones::cruceUniforme(Solucion &p1, Solucion &p2){
     Solucion hijo1, hijo2;
     int calculoObjetivo = 0;
 
@@ -198,8 +199,72 @@ int Poblaciones::cruceUniforme(const Solucion &p1, const Solucion &p2){
     return calculoObjetivo;
 }
 
+int Poblaciones::cruceSegmentoFijo(Solucion &p1, Solucion &p2){
+    // Solucion hijo1, hijo2;
+    int calculoObjetivo = 0;
+
+    int r = Randint(0,n-1),
+        v = Randint(n/2,n-1); // Favorecemos la explotación
+
+    // Tomo el portador del segmento
+    if(p1 < p2)
+        S = p1.S;
+    else
+        S = p2.S;
+
+    vector<int> out(n-v);
+    iota(begin(out), end(out), (r+v)%n);
+    random_shuffle(out.begin(), out.end());
+
+    for(int i=0; i<out.size(); i++){
+        if(i < (n-v)/2)
+            this->S[out[i]] = p1.S[out[i]];
+        else
+            this->S[out[i]] = p2.S[out[i]];
+    }
+
+    recalcularSolucion();
+    funcionObjetivo();
+
+    Solucion hijo1;
+
+    hijo1 = (*this);
+    this->P.push_back(hijo1);
+
+    r = Randint(0,n-1);
+    v = Randint(n/2,n-1); // Favorecemos la explotación
+    
+    if(p1 < p2)
+        S = p1.S;
+    else
+        S = p2.S;
+
+    out = vector<int>(n-v);
+    iota(begin(out), end(out), (r+v)%n);
+    random_shuffle(out.begin(), out.end());
+
+    for(int i=0; i<out.size(); i++){
+        if(i < (n-v)/2)
+            this->S[out[i]] = p1.S[out[i]];
+        else
+            this->S[out[i]] = p2.S[out[i]];
+    }
+
+    recalcularSolucion();
+    funcionObjetivo();
+    Solucion hijo2;
+
+    hijo2 = (*this);
+    this->P.push_back(hijo2);
+    calculoObjetivo = 2;
+
+    return calculoObjetivo;
+}
+
 void Poblaciones::recalcularSolucion(){
     this->C = vector<vector<int>>(k, vector<int>(0));
+    this->c_ic = vector<double>(k);
+    this->inf_total = 0;
     this->U = vector<vector<double>>(k, vector<double>(X[0].size()));
     this->num_vacios = k;
     this->n_c = vector<int>(k,0);

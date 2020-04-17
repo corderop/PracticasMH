@@ -62,12 +62,20 @@ class Poblaciones : public Busqueda {
         void torneoBinario();
 
         /**
-         * @brief Operador de cruce
+         * @brief Operador de cruce uniforme
          * @param Padre 1
          * @param Padre 2
          * @return Veces que ha recalculado la función objetivo
          */
-        int cruceUniforme(const Solucion &p1, const Solucion &p2);
+        int cruceUniforme(Solucion &p1, Solucion &p2);
+
+        /**
+         * @brief Operador de cruce de segmento fijo
+         * @param Padre 1
+         * @param Padre 2
+         * @return Veces que ha recalculado la función objetivo
+         */
+        int cruceSegmentoFijo(Solucion &p1, Solucion &p2);
 
         /**
          * @brief Genera cromosomas
