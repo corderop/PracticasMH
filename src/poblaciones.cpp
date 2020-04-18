@@ -17,15 +17,11 @@ void Poblaciones::realizarBusqueda(){
         int no_cruces = P_c*(M/2);
         for(int i=0; i<no_cruces; i++){
             int j = i*2;
-            evaluaciones += cruceUniforme(P_t[j], P_t[j+1]);
+            evaluaciones += cruceSegmentoFijo(P_t[j], P_t[j+1]);
         }
-        for(int i=no_cruces*2; i<M-1; i++){
+        for(int i=no_cruces*2; i<M; i++){
             P.push_back(P_t[i]);
         }
-        if(mejor_pad < no_cruces*2)
-            P.push_back(P_t[mejor_pad]);
-        else
-            P.push_back(P_t[M-1]);
 
         float no_mutaciones = P_m*M*n;
         for(int i=0; i<no_mutaciones; i++){
@@ -34,6 +30,9 @@ void Poblaciones::realizarBusqueda(){
             mutacion(r1,r2);
             evaluaciones++;
         }
+
+        // Mantenemos mejor padre
+        P[M-1] = P_t[mejor_pad];
     }
 
     // Tomo la mejor solución
@@ -55,14 +54,14 @@ void Poblaciones::generarPoblacionInicial(){
 
         Solucion sol;
 
-        sol.U = this->U;
-        sol.C = this->C;
+        // sol.U = this->U;
+        // sol.C = this->C;
         sol.S = this->S;
-        sol.c_ic = this->c_ic;
+        // sol.c_ic = this->c_ic;
         sol.obj = this->obj;
-        sol.desviacion = this->desviacion;
-        sol.inf_total = this->inf_total;
-        sol.n_c = this->n_c;
+        // sol.desviacion = this->desviacion;
+        // sol.inf_total = this->inf_total;
+        // sol.n_c = this->n_c;
 
         this->P.push_back(sol);
     }
@@ -106,8 +105,8 @@ void Poblaciones::generarSolucionInicial(){
     }
 
 	// Calcula los centroides
-	for(int i=0; i<k; i++)
-        calcularCentroide(i);
+	// for(int i=0; i<k; i++)
+    //     calcularCentroide(i);
 
 }
 
@@ -128,6 +127,7 @@ void Poblaciones::evaluarSolucion(Solucion &s){
     (*this) = s;
 
     // Calcula la función objetivo
+    recalcularSolucion();
     this->funcionObjetivo();
 
     // Vuelve a copiar en s los valores con la función ya calculada
@@ -201,11 +201,17 @@ int Poblaciones::cruceUniforme(Solucion &p1, Solucion &p2){
 }
 
 int Poblaciones::cruceSegmentoFijo(Solucion &p1, Solucion &p2){
-    // Solucion hijo1, hijo2;
+    Solucion hijo1, hijo2;
     int calculoObjetivo = 0;
 
     int r = Randint(0,n-1),
         v = Randint(n/2,n-1); // Favorecemos la explotación
+
+
+    // Toma la aleatoreidad de genes en un vector
+    vector<int> out(n);
+    iota(begin(out), end(out), 0);
+    random_shuffle(out.begin(), out.end());
 
     // Tomo el portador del segmento
     if(p1 < p2)
@@ -213,50 +219,46 @@ int Poblaciones::cruceSegmentoFijo(Solucion &p1, Solucion &p2){
     else
         S = p2.S;
 
-    vector<int> out(n-v);
-    iota(begin(out), end(out), (r+v)%n);
-    random_shuffle(out.begin(), out.end());
-
     for(int i=0; i<out.size(); i++){
-        if(i < (n-v)/2)
-            this->S[out[i]] = p1.S[out[i]];
-        else
-            this->S[out[i]] = p2.S[out[i]];
+        if( out[i]>=((r+v)%8) && out[i]<(((r+v)%8)+r) ){
+            if(i < n/2)
+                S[out[i]] = p1.S[out[i]];
+            else
+                S[out[i]] = p2.S[out[i]];
+        }
     }
 
     recalcularSolucion();
     funcionObjetivo();
-
-    Solucion hijo1;
-
-    hijo1 = (*this);
-    this->P.push_back(hijo1);
-
-    r = Randint(0,n-1);
-    v = Randint(n/2,n-1); // Favorecemos la explotación
     
+    hijo1 = (*this);
+
+    P.push_back(hijo1);
+
+    out = vector<int>(n);
+    iota(begin(out), end(out), 0);
+    random_shuffle(out.begin(), out.end());
+
     if(p1 < p2)
         S = p1.S;
     else
         S = p2.S;
 
-    out = vector<int>(n-v);
-    iota(begin(out), end(out), (r+v)%n);
-    random_shuffle(out.begin(), out.end());
-
     for(int i=0; i<out.size(); i++){
-        if(i < (n-v)/2)
-            this->S[out[i]] = p1.S[out[i]];
-        else
-            this->S[out[i]] = p2.S[out[i]];
+        if( out[i]>=((r+v)%8) && out[i]<(((r+v)%8)+r) ){
+            if(i < n/2)
+                S[out[i]] = p1.S[out[i]];
+            else
+                S[out[i]] = p2.S[out[i]];
+        }
     }
 
     recalcularSolucion();
     funcionObjetivo();
-    Solucion hijo2;
-
+    
     hijo2 = (*this);
-    this->P.push_back(hijo2);
+
+    P.push_back(hijo2);
     calculoObjetivo = 2;
 
     return calculoObjetivo;
@@ -306,8 +308,12 @@ void Poblaciones::recalcularSolucion(){
 
 void Poblaciones::mutacion(int c, int g){
     // Comprueba que no deje un cluster vacio
-    while(P[c].n_c[P[c].S[g]] <= 1){
+    this->S = P[c].S;
+    recalcularSolucion();
+    while(n_c[S[g]] <= 1){
         g = Randint(0,n-1);
+        this->S = P[c].S;
+        recalcularSolucion();
     }
     
     this->S = P[c].S;
@@ -316,24 +322,17 @@ void Poblaciones::mutacion(int c, int g){
     recalcularSolucion();
     funcionObjetivo();
 
-    P.erase(P.begin()+c);
     Solucion mut;
 
     mut = (*this);
 
-    P.push_back(mut);
+    P[c] = mut;
 }
 
 
 Poblaciones& Poblaciones::operator=(const Solucion &s){
-    this->U = s.U;
-    this->C = s.C;
     this->S = s.S;
-    this->c_ic = s.c_ic;
     this->obj = s.obj;
-    this->desviacion = s.desviacion;
-    this->inf_total = s.inf_total;
-    this->n_c = s.n_c;
  
     return *this;
 }

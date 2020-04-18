@@ -103,14 +103,14 @@ class Busqueda{
 };
 
 struct Solucion{
-    vector<vector<double>> U;
-    vector<vector<int>> C;
+    // vector<vector<double>> U;
+    // vector<vector<int>> C;
     vector<int> S;
-    vector<double> c_ic;
-    vector<int> n_c;
+    // vector<double> c_ic;
+    // vector<int> n_c;
     double obj;
-    double desviacion;
-    int inf_total;
+    // double desviacion;
+    // int inf_total;
 
     bool operator<(const Solucion &s2){
         return obj < s2.obj;
@@ -121,27 +121,27 @@ struct Solucion{
     }
 
     Solucion& operator=(const Solucion &s2){
-        U = s2.U;
-        C = s2.C;
+        // U = s2.U;
+        // C = s2.C;
         S = s2.S;
-        c_ic = s2.c_ic;
+        // c_ic = s2.c_ic;
         obj = s2.obj;
-        desviacion = s2.desviacion;
-        inf_total = s2.inf_total;
-        n_c = s2.n_c;
+        // desviacion = s2.desviacion;
+        // inf_total = s2.inf_total;
+        // n_c = s2.n_c;
 
         return *this;
     }
 
     Solucion& operator=(const Busqueda &b){
-        this->U = b.U;              
-        this->C = b.C;              
+        // this->U = b.U;              
+        // this->C = b.C;              
         this->S = b.S;              
-        this->c_ic = b.c_ic;        
+        // this->c_ic = b.c_ic;        
         this->obj = b.obj;
-        this->desviacion = b.desviacion;
-        this->inf_total = b.inf_total;
-        this->n_c = b.n_c;       
+        // this->desviacion = b.desviacion;
+        // this->inf_total = b.inf_total;
+        // this->n_c = b.n_c;       
 
         return *this;   
     }
