@@ -33,14 +33,14 @@ int main(int argc, char* argv[]){
 //     // Inicialización de semillas aleatorias
     srand(seed);
     Set_random(seed);
-    string conjunto = "rand";
-    string rest = "10";
+    string conjunto = "iris";
+    string rest = "20";
 //     // Variables principales
     vector<vector<double>> data = leerDatos<double>("data/" + conjunto + "_set.dat");
     vector<vector<int>> restricciones = leerDatos<int>("data/" + conjunto + "_set_const_" + rest + ".const");
     vector<vector<int>> lista_rest = restriccionesALista(restricciones);
 
-    // int clusters = (conjunto == "ecoli") ? 8 : 3 ;
+    int clusters = (conjunto == "ecoli") ? 8 : 3 ;
 
 //     cout<<"--------------------------------"<<endl;
 //     if(S == "g"){
@@ -55,7 +55,7 @@ int main(int argc, char* argv[]){
 //     }
 //     cout<<"--------------------------------"<<endl;
 
-    Poblaciones p(data,restricciones,3);
+    Poblaciones p(data,restricciones,clusters);
     p.realizarBusqueda();
 
     cout<<"--------------------------------"<<endl;

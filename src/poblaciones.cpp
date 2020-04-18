@@ -17,8 +17,11 @@ void Poblaciones::realizarBusqueda(){
 }
 
 void Poblaciones::realizarGeneracional(char tipo){
+    unsigned t0, t1;
     int evaluaciones = 0;
     t = 0;
+
+    t0 = clock();
 
     generarPoblacionInicial();
     evaluaciones += evaluarPoblacion();
@@ -63,11 +66,17 @@ void Poblaciones::realizarGeneracional(char tipo){
 
     (*this) = P[mejor_sol];
 
+    t1 = clock();
+
+	time = ( double(t1-t0)/CLOCKS_PER_SEC );
 }
 
 void Poblaciones::realizarEstacionario(char tipo){
+    unsigned t0, t1;
     int evaluaciones = 0;
     t = 0;
+
+    t0 = clock();
 
     generarPoblacionInicial();
     evaluaciones += evaluarPoblacion();
@@ -142,7 +151,54 @@ void Poblaciones::realizarEstacionario(char tipo){
 
     (*this) = P[mejor_sol];
 
+    t1 = clock();
+
+	time = ( double(t1-t0)/CLOCKS_PER_SEC );
+
 }
+
+void Poblaciones::busquedaLocalSuave(int e){
+    int fallos = 0;
+    bool mejora = true;
+    int i=0;
+
+    vector<int> RSI;
+    generarVector(RSI, n);
+
+    while((mejora || fallos < e) && i<n){
+        mejora = false;
+        int cluster_actual = S[RSI[i]];
+        int nuevo_cluster = -1;
+        double obj_actual = obj;
+        if(n_c[cluster_actual] > 1){
+            for(int j=0; j<k; j++){
+                if(j != cluster_actual){
+                    S[RSI[i]] = j;
+                    recalcularSolucion();
+                    funcionObjetivo();
+                    if(obj < obj_actual){
+                        nuevo_cluster = j;
+                    }
+                }
+            }
+        }
+        else
+            fallos++;
+
+        if(nuevo_cluster == -1){
+            fallos++;
+        }
+        else{
+            mejora=true;
+            S[RSI[i]] = nuevo_cluster;
+            recalcularSolucion();
+            funcionObjetivo();
+        }
+
+        i++;
+    }
+}
+
 
 void Poblaciones::generarPoblacionInicial(){
     P = vector<Solucion>(0);
@@ -510,7 +566,7 @@ void Poblaciones::recalcularSolucion(){
 
                 do{
                    random = Randint(0, C.size()-1); 
-                }while(n_c[random]>1);
+                }while(n_c[random]<=1);
 
                 int anterior = C[random][C[random].size()-1];
                 C[random].pop_back();

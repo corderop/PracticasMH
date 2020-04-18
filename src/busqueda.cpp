@@ -13,7 +13,7 @@ Busqueda::Busqueda(vector<vector<double>> _X, vector<vector<int>> _MR, int _k){
 
     if(!X.empty())
         this->n = X.size();
-    else{ 
+    else{
         cout<<"Conjunto de datos vacío"<<endl;
         assert(false);
     }

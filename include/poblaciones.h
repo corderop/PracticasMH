@@ -22,6 +22,8 @@ class Poblaciones : public Busqueda {
 
         void realizarEstacionario(char tipo);
 
+        void busquedaLocalSuave(int e);
+
     protected:
 
         // Tamaño de la población
@@ -106,7 +108,6 @@ class Poblaciones : public Busqueda {
          */
         void mutacion(int c, int g);
         void mutacionEstacionario(int c, int g);
-
 
         Poblaciones& operator=(const Solucion &s);
 };
