@@ -1,6 +1,22 @@
 #include "poblaciones.h"
 
 void Poblaciones::realizarBusqueda(){
+    cout<<"--------------------------------"<<endl;
+    realizarGeneracional('U');
+    mostrarResultado();
+    cout<<"--------------------------------"<<endl;
+    realizarGeneracional('S');
+    mostrarResultado();
+    cout<<"--------------------------------"<<endl;
+    realizarEstacionario('U');
+    mostrarResultado();
+    cout<<"--------------------------------"<<endl;
+    realizarEstacionario('S');
+    mostrarResultado();
+    cout<<"--------------------------------"<<endl;
+}
+
+void Poblaciones::realizarGeneracional(char tipo){
     int evaluaciones = 0;
     t = 0;
 
@@ -17,7 +33,10 @@ void Poblaciones::realizarBusqueda(){
         int no_cruces = P_c*(M/2);
         for(int i=0; i<no_cruces; i++){
             int j = i*2;
-            evaluaciones += cruceSegmentoFijo(P_t[j], P_t[j+1]);
+            if(tipo == 'U')
+                evaluaciones += cruceUniforme(P_t[j], P_t[j+1]);
+            else if(tipo == 'S')
+                evaluaciones += cruceSegmentoFijo(P_t[j], P_t[j+1]);
         }
         for(int i=no_cruces*2; i<M; i++){
             P.push_back(P_t[i]);
@@ -32,7 +51,87 @@ void Poblaciones::realizarBusqueda(){
         }
 
         // Mantenemos mejor padre
-        P[M-1] = P_t[mejor_pad];
+        int peor = max_element(P.begin(),P.end()) - P.begin(); 
+        P[peor] = P_t[mejor_pad];
+    }
+
+    // Tomo la mejor solución
+    this->mejor_sol = min_element(P.begin(),P.end()) - P.begin();
+    // for(int i=1; i<P.size(); i++)
+    //     if(P[i] < P[mejor_sol])
+    //         mejor_sol = i;
+
+    (*this) = P[mejor_sol];
+
+}
+
+void Poblaciones::realizarEstacionario(char tipo){
+    int evaluaciones = 0;
+    t = 0;
+
+    generarPoblacionInicial();
+    evaluaciones += evaluarPoblacion();
+    
+    while(evaluaciones < 100000){
+        t++;
+        // Realizamos la selección
+        torneoBinarioEstacionario();
+        // P.resize(0);
+
+        // Realizamos el cruce
+        if(tipo == 'U'){
+            evaluaciones += cruceUniformeEstacionario(P_t[0], P_t[1]);
+            evaluaciones += cruceUniformeEstacionario(P_t[0], P_t[1]);
+        }
+        else if(tipo == 'S'){
+            evaluaciones += cruceSegmentoFijoEstacionario(P_t[0], P_t[1]);
+            evaluaciones += cruceSegmentoFijoEstacionario(P_t[0], P_t[1]);
+        }
+
+
+        float no_mutaciones = P_m*2*n;
+
+        for(int i=0; i<2; i++){
+            double prob = Randdouble(0,100);
+            if(prob < (P_m*n)*100){
+                int r2 = Randint(0,n-1);
+                mutacionEstacionario(i,r2);
+                evaluaciones++;
+            }
+        }
+
+        // Obtenemos el índice del peor elemento
+        int peor = max_element(P.begin(),P.end()) - P.begin(); 
+        // Tomo el peor de los hijos    
+        if(P_t[0] < P_t[1]){
+            // Lo comparo con el peor de la población
+            if(P_t[1] < P[peor]){
+                // Intercambio el peor con el peor de los hijos
+                P[peor] = P_t[1];
+                // Cojo el segundo peor de la población
+                peor = max_element(P.begin(),P.end()) - P.begin();
+                if(P_t[0] < P[peor]){
+                    P[peor] = P_t[0];
+                }
+            }
+            else if(P_t[0] < P[peor]){
+                P[peor] = P_t[0];
+            }
+        }
+        else{
+            if(P_t[0] < P[peor]){
+                // Intercambio el peor con el peor de los hijos
+                P[peor] = P_t[0];
+                // Cojo el segundo peor de la población
+                peor = max_element(P.begin(),P.end()) - P.begin();
+                if(P_t[1] < P[peor]){
+                    P[peor] = P_t[1];
+                }
+            }
+            else if(P_t[1] < P[peor]){
+                P[peor] = P_t[1];
+            }
+        }
     }
 
     // Tomo la mejor solución
@@ -155,6 +254,18 @@ void Poblaciones::torneoBinario(){
     }
 }
 
+void Poblaciones::torneoBinarioEstacionario(){
+    P_t = vector<Solucion>(0);
+
+    int a = Randint(0, M-1),
+        b = Randint(0, M-1);
+
+    P_t.push_back(P[a]);
+    P_t.push_back(P[b]);
+    // P.erase(P.begin()+a);
+    // P.erase(P.begin()+b);
+}
+
 int Poblaciones::cruceUniforme(Solucion &p1, Solucion &p2){
     Solucion hijo1, hijo2;
     int calculoObjetivo = 0;
@@ -195,6 +306,51 @@ int Poblaciones::cruceUniforme(Solucion &p1, Solucion &p2){
     hijo2 = (*this);
 
     P.push_back(hijo2);
+    calculoObjetivo = 2;
+
+    return calculoObjetivo;
+}
+
+int Poblaciones::cruceUniformeEstacionario(Solucion &p1, Solucion &p2){
+    Solucion hijo1, hijo2;
+    int calculoObjetivo = 0;
+
+    // Toma la aleatoreidad de genes en un vector
+    vector<int> out(n);
+    iota(begin(out), end(out), 0);
+    random_shuffle(out.begin(), out.end());
+
+    for(int i=0; i<out.size(); i++){
+        if(i < n/2)
+            S[out[i]] = p1.S[out[i]];
+        else
+            S[out[i]] = p2.S[out[i]];
+    }
+
+    recalcularSolucion();
+    funcionObjetivo();
+    
+    hijo1 = (*this);
+
+    p1 = hijo1;
+
+    out = vector<int>(n);
+    iota(begin(out), end(out), 0);
+    random_shuffle(out.begin(), out.end());
+
+    for(int i=0; i<out.size(); i++){
+        if(i < n/2)
+            S[out[i]] = p1.S[out[i]];
+        else
+            S[out[i]] = p2.S[out[i]];
+    }
+
+    recalcularSolucion();
+    funcionObjetivo();
+    
+    hijo2 = (*this);
+
+    p2 = hijo2;
     calculoObjetivo = 2;
 
     return calculoObjetivo;
@@ -264,6 +420,70 @@ int Poblaciones::cruceSegmentoFijo(Solucion &p1, Solucion &p2){
     return calculoObjetivo;
 }
 
+int Poblaciones::cruceSegmentoFijoEstacionario(Solucion &p1, Solucion &p2){
+    Solucion hijo1, hijo2;
+    int calculoObjetivo = 0;
+
+    int r = Randint(0,n-1),
+        v = Randint(n/2,n-1); // Favorecemos la explotación
+
+
+    // Toma la aleatoreidad de genes en un vector
+    vector<int> out(n);
+    iota(begin(out), end(out), 0);
+    random_shuffle(out.begin(), out.end());
+
+    // Tomo el portador del segmento
+    if(p1 < p2)
+        S = p1.S;
+    else
+        S = p2.S;
+
+    for(int i=0; i<out.size(); i++){
+        if( out[i]>=((r+v)%8) && out[i]<(((r+v)%8)+r) ){
+            if(i < n/2)
+                S[out[i]] = p1.S[out[i]];
+            else
+                S[out[i]] = p2.S[out[i]];
+        }
+    }
+
+    recalcularSolucion();
+    funcionObjetivo();
+    
+    hijo1 = (*this);
+
+    p1 = hijo1;
+
+    out = vector<int>(n);
+    iota(begin(out), end(out), 0);
+    random_shuffle(out.begin(), out.end());
+
+    if(p1 < p2)
+        S = p1.S;
+    else
+        S = p2.S;
+
+    for(int i=0; i<out.size(); i++){
+        if( out[i]>=((r+v)%8) && out[i]<(((r+v)%8)+r) ){
+            if(i < n/2)
+                S[out[i]] = p1.S[out[i]];
+            else
+                S[out[i]] = p2.S[out[i]];
+        }
+    }
+
+    recalcularSolucion();
+    funcionObjetivo();
+    
+    hijo2 = (*this);
+
+    p2 = hijo2;
+    calculoObjetivo = 2;
+
+    return calculoObjetivo;
+}
+
 void Poblaciones::recalcularSolucion(){
     this->C = vector<vector<int>>(k, vector<int>(0));
     this->c_ic = vector<double>(k);
@@ -328,6 +548,30 @@ void Poblaciones::mutacion(int c, int g){
 
     P[c] = mut;
 }
+
+void Poblaciones::mutacionEstacionario(int c, int g){
+    // Comprueba que no deje un cluster vacio
+    this->S = P_t[c].S;
+    recalcularSolucion();
+    while(n_c[S[g]] <= 1){
+        g = Randint(0,n-1);
+        // this->S = P_t[c].S;
+        recalcularSolucion();
+    }
+    
+    // this->S = P_t[c].S;
+    this->S[g] = Randint(0,k-1);
+
+    recalcularSolucion();
+    funcionObjetivo();
+
+    Solucion mut;
+
+    mut = (*this);
+
+    P_t[c] = mut;
+}
+
 
 
 Poblaciones& Poblaciones::operator=(const Solucion &s){

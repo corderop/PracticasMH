@@ -13,10 +13,14 @@ class Poblaciones : public Busqueda {
         Poblaciones(vector<vector<double>> _X, vector<vector<int>> _MR, int _k) 
             : Busqueda(_X, _MR, _k){};
 
+        void realizarBusqueda();
+
         /**
          * @brief Realiza la búsqueda del resultado
          */
-        void realizarBusqueda();
+        void realizarGeneracional(char tipo);
+
+        void realizarEstacionario(char tipo);
 
     protected:
 
@@ -62,12 +66,19 @@ class Poblaciones : public Busqueda {
         void torneoBinario();
 
         /**
+         * @brief Torneo Binario
+         */
+        void torneoBinarioEstacionario();
+
+        /**
          * @brief Operador de cruce uniforme
          * @param Padre 1
          * @param Padre 2
          * @return Veces que ha recalculado la función objetivo
          */
         int cruceUniforme(Solucion &p1, Solucion &p2);
+
+        int cruceUniformeEstacionario(Solucion &p1, Solucion &p2);
 
         /**
          * @brief Operador de cruce de segmento fijo
@@ -76,6 +87,7 @@ class Poblaciones : public Busqueda {
          * @return Veces que ha recalculado la función objetivo
          */
         int cruceSegmentoFijo(Solucion &p1, Solucion &p2);
+        int cruceSegmentoFijoEstacionario(Solucion &p1, Solucion &p2);
 
         /**
          * @brief Genera cromosomas
@@ -93,6 +105,8 @@ class Poblaciones : public Busqueda {
          * @param g Número de gen
          */
         void mutacion(int c, int g);
+        void mutacionEstacionario(int c, int g);
+
 
         Poblaciones& operator=(const Solucion &s);
 };

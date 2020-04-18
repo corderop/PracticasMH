@@ -57,12 +57,6 @@ int main(int argc, char* argv[]){
 
     Poblaciones p(data,restricciones,3);
     p.realizarBusqueda();
-    p.mostrarResultado();
-    // int a;
 
-    cout<<"--------------------------------"<<endl;
-
-    // p.realizarBusqueda();
-    
     cout<<"--------------------------------"<<endl;
 }
