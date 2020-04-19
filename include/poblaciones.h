@@ -22,12 +22,14 @@ class Poblaciones : public Busqueda {
 
         void realizarEstacionario(char tipo);
 
-        void busquedaLocalSuave(int e);
+        void realizarMemetico(int tipo);
+
+        int busquedaLocalSuave(int e);
 
     protected:
 
         // Tamaño de la población
-        const int M = 50;
+        const int M = 10;
         // Probabilidad de cruce
         const double P_c = 0.7;
         // Probabilidad de mutación

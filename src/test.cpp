@@ -33,8 +33,8 @@ int main(int argc, char* argv[]){
 //     // Inicialización de semillas aleatorias
     srand(seed);
     Set_random(seed);
-    string conjunto = "iris";
-    string rest = "20";
+    string conjunto = "ecoli";
+    string rest = "10";
 //     // Variables principales
     vector<vector<double>> data = leerDatos<double>("data/" + conjunto + "_set.dat");
     vector<vector<int>> restricciones = leerDatos<int>("data/" + conjunto + "_set_const_" + rest + ".const");

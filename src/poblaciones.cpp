@@ -14,6 +14,15 @@ void Poblaciones::realizarBusqueda(){
     realizarEstacionario('S');
     mostrarResultado();
     cout<<"--------------------------------"<<endl;
+    realizarMemetico(1);
+    mostrarResultado();
+    cout<<"--------------------------------"<<endl;
+    realizarMemetico(2);
+    mostrarResultado();
+    cout<<"--------------------------------"<<endl;
+    realizarMemetico(3);
+    mostrarResultado();
+    cout<<"--------------------------------"<<endl;
 }
 
 void Poblaciones::realizarGeneracional(char tipo){
@@ -144,10 +153,8 @@ void Poblaciones::realizarEstacionario(char tipo){
     }
 
     // Tomo la mejor solución
-    this->mejor_sol = 0;
-    for(int i=1; i<P.size(); i++)
-        if(P[i] < P[mejor_sol])
-            mejor_sol = i;
+    this->mejor_sol = min_element(P.begin(),P.end()) - P.begin();
+
 
     (*this) = P[mejor_sol];
 
@@ -157,10 +164,101 @@ void Poblaciones::realizarEstacionario(char tipo){
 
 }
 
-void Poblaciones::busquedaLocalSuave(int e){
+void Poblaciones::realizarMemetico(int tipo){
+    unsigned t0, t1;
+    int evaluaciones = 0;
+    t = 0;
+
+    t0 = clock();
+
+    generarPoblacionInicial();
+    evaluaciones += evaluarPoblacion();
+    
+    while(evaluaciones < 100000){
+        t++;
+        // Realizamos la selección
+        torneoBinario();
+        P.resize(0);
+
+        // Realizamos el cruce
+        int no_cruces = P_c*(M/2);
+        for(int i=0; i<no_cruces; i++){
+            int j = i*2;
+            evaluaciones += cruceUniforme(P_t[j], P_t[j+1]);
+        }
+        for(int i=no_cruces*2; i<M; i++){
+            P.push_back(P_t[i]);
+        }
+
+        float no_mutaciones = P_m*M*n;
+        for(int i=0; i<no_mutaciones; i++){
+            int r1 = Randint(0,M-1),
+                r2 = Randint(0,n-1);
+            mutacion(r1,r2);
+            evaluaciones++;
+        }
+
+        // Mantenemos mejor padre
+        int peor = max_element(P.begin(),P.end()) - P.begin(); 
+        P[peor] = P_t[mejor_pad];
+
+        if(t%10 == 0){
+            if(tipo == 1){
+                for(int i=0; i<M; i++){
+                    this->S = P[i].S;
+                    this->obj = P[i].obj;
+                    evaluaciones += busquedaLocalSuave(0.1*n);
+                    P[i].S = this->S;
+                    P[i].obj = this->obj;
+                }
+            }
+            else if(tipo == 2){
+                int no_bl = 0.1*M;
+                for(int i=0; i<no_bl; i++){
+                    int r1 = Randint(0,M-1);
+                    this->S = P[r1].S;
+                    this->obj = P[r1].obj;
+                    evaluaciones += busquedaLocalSuave(0.1*n);
+                    P[r1].S = this->S;
+                    P[r1].obj = this->obj;
+                }
+            }
+            else{
+                int no_bl = 0.1*M;
+                vector<int> mejores(no_bl);
+                vector<int> aux(no_bl);
+                for(int i=0; i<no_bl ;i++){
+                    mejores[i] = min_element(P.begin(),P.end()) - P.begin();
+                    aux[i] = P[mejores[i]].obj;
+                    P[mejores[i]].obj = 0;
+                }
+                for(int i=0; i<no_bl; i++){
+                    P[mejores[i]].obj = aux[i];
+                    this->S = P[mejores[i]].S;
+                    this->obj = P[mejores[i]].obj;
+                    evaluaciones += busquedaLocalSuave(0.1*n);
+                    P[mejores[i]].S = this->S;
+                    P[mejores[i]].obj = this->obj;
+                }
+            }
+        }
+
+    }
+
+    this->mejor_sol = min_element(P.begin(),P.end()) - P.begin();
+
+    (*this) = P[mejor_sol];
+
+    t1 = clock();
+
+	time = ( double(t1-t0)/CLOCKS_PER_SEC );
+}
+
+int Poblaciones::busquedaLocalSuave(int e){
     int fallos = 0;
     bool mejora = true;
     int i=0;
+    int evaluaciones = 0;
 
     vector<int> RSI;
     generarVector(RSI, n);
@@ -176,6 +274,7 @@ void Poblaciones::busquedaLocalSuave(int e){
                     S[RSI[i]] = j;
                     recalcularSolucion();
                     funcionObjetivo();
+                    evaluaciones++;
                     if(obj < obj_actual){
                         nuevo_cluster = j;
                     }
@@ -187,16 +286,21 @@ void Poblaciones::busquedaLocalSuave(int e){
 
         if(nuevo_cluster == -1){
             fallos++;
+            S[RSI[i]] = cluster_actual;
+            obj = obj_actual;
         }
         else{
             mejora=true;
             S[RSI[i]] = nuevo_cluster;
             recalcularSolucion();
             funcionObjetivo();
+            evaluaciones++;
         }
 
         i++;
     }
+
+    return evaluaciones;
 }
 
 
