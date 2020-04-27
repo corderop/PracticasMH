@@ -1,7 +1,7 @@
 #include "poblaciones.h"
 
 void Poblaciones::realizarBusqueda(){
-    cout<<"--------------------------------"<<endl;
+    // cout<<"--------------------------------"<<endl;
     realizarGeneracional('U');
     mostrarResultado();
     cout<<"--------------------------------"<<endl;
@@ -22,7 +22,7 @@ void Poblaciones::realizarBusqueda(){
     cout<<"--------------------------------"<<endl;
     realizarMemetico(3);
     mostrarResultado();
-    cout<<"--------------------------------"<<endl;
+    // cout<<"--------------------------------"<<endl;
 }
 
 void Poblaciones::realizarGeneracional(char tipo){
@@ -69,9 +69,6 @@ void Poblaciones::realizarGeneracional(char tipo){
 
     // Tomo la mejor solución
     this->mejor_sol = min_element(P.begin(),P.end()) - P.begin();
-    // for(int i=1; i<P.size(); i++)
-    //     if(P[i] < P[mejor_sol])
-    //         mejor_sol = i;
 
     (*this) = P[mejor_sol];
 
@@ -313,14 +310,8 @@ void Poblaciones::generarPoblacionInicial(){
 
         Solucion sol;
 
-        // sol.U = this->U;
-        // sol.C = this->C;
         sol.S = this->S;
-        // sol.c_ic = this->c_ic;
         sol.obj = this->obj;
-        // sol.desviacion = this->desviacion;
-        // sol.inf_total = this->inf_total;
-        // sol.n_c = this->n_c;
 
         this->P.push_back(sol);
     }
@@ -363,10 +354,6 @@ void Poblaciones::generarSolucionInicial(){
         }
     }
 
-	// Calcula los centroides
-	// for(int i=0; i<k; i++)
-    //     calcularCentroide(i);
-
 }
 
 int Poblaciones::evaluarPoblacion(){
@@ -374,7 +361,6 @@ int Poblaciones::evaluarPoblacion(){
 
     for(int i=0; i<M; i++){
         evaluarSolucion(this->P[i]);
-        // Comprobar que esto funcione
         evaluaciones++;
     }
 

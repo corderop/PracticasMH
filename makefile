@@ -50,6 +50,17 @@ bl_iris: $(_EXE)
 bl_ecoli: $(_EXE)
 	$(_EXE) bl ecoli 10
 
+# Búsqueda basada en poblaciones
+
+p_rand: $(_EXE)
+	$(_EXE) p rand 10
+
+p_iris: $(_EXE)
+	$(_EXE) p iris 10 150
+
+p_ecoli: $(_EXE)
+	$(_EXE) p ecoli 10
+
 ##########################################
 # Extración de datos para tablas		
 ##########################################
