@@ -1,28 +1,28 @@
 #include "poblaciones.h"
 
 void Poblaciones::realizarBusqueda(){
-    // cout<<"--------------------------------"<<endl;
+    cout<<"-AGG-U-------------------------------"<<endl;
     realizarGeneracional('U');
     mostrarResultado();
-    cout<<"--------------------------------"<<endl;
+    cout<<"-AGG-S-------------------------------"<<endl;
     realizarGeneracional('S');
     mostrarResultado();
-    cout<<"--------------------------------"<<endl;
+    cout<<"-AGE-U-------------------------------"<<endl;
     realizarEstacionario('U');
     mostrarResultado();
-    cout<<"--------------------------------"<<endl;
+    cout<<"-AGE-S-------------------------------"<<endl;
     realizarEstacionario('S');
     mostrarResultado();
-    cout<<"--------------------------------"<<endl;
+    cout<<"-M-10-------------------------------"<<endl;
     realizarMemetico(1);
     mostrarResultado();
-    cout<<"--------------------------------"<<endl;
+    cout<<"-M-0.1-------------------------------"<<endl;
     realizarMemetico(2);
     mostrarResultado();
-    cout<<"--------------------------------"<<endl;
+    cout<<"-M-0.1e-------------------------------"<<endl;
     realizarMemetico(3);
     mostrarResultado();
-    // cout<<"--------------------------------"<<endl;
+    cout<<"--------------------------------"<<endl;
 }
 
 void Poblaciones::realizarGeneracional(char tipo){
@@ -91,15 +91,12 @@ void Poblaciones::realizarEstacionario(char tipo){
         t++;
         // Realizamos la selección
         torneoBinarioEstacionario();
-        // P.resize(0);
 
         // Realizamos el cruce
         if(tipo == 'U'){
             evaluaciones += cruceUniformeEstacionario(P_t[0], P_t[1]);
-            evaluaciones += cruceUniformeEstacionario(P_t[0], P_t[1]);
         }
         else if(tipo == 'S'){
-            evaluaciones += cruceSegmentoFijoEstacionario(P_t[0], P_t[1]);
             evaluaciones += cruceSegmentoFijoEstacionario(P_t[0], P_t[1]);
         }
 
@@ -278,8 +275,8 @@ int Poblaciones::busquedaLocalSuave(int e){
                 }
             }
         }
-        else
-            fallos++;
+        // else
+        //     fallos++;
 
         if(nuevo_cluster == -1){
             fallos++;
@@ -406,10 +403,24 @@ void Poblaciones::torneoBinarioEstacionario(){
     int a = Randint(0, M-1),
         b = Randint(0, M-1);
 
-    P_t.push_back(P[a]);
-    P_t.push_back(P[b]);
-    // P.erase(P.begin()+a);
-    // P.erase(P.begin()+b);
+    // Seleccionamos el mejor
+    if(this->P[a] < P[b]){
+        P_t.push_back(P[a]);
+    }
+    else{
+        P_t.push_back(P[b]);
+    }
+
+    a = Randint(0, M-1);
+    b = Randint(0, M-1);
+        
+    // Seleccionamos el mejor
+    if(this->P[a] < P[b]){
+        P_t.push_back(P[a]);
+    }
+    else{
+        P_t.push_back(P[b]);
+    }
 }
 
 int Poblaciones::cruceUniforme(Solucion &p1, Solucion &p2){
@@ -522,7 +533,7 @@ int Poblaciones::cruceSegmentoFijo(Solucion &p1, Solucion &p2){
         S = p2.S;
 
     for(int i=0; i<out.size(); i++){
-        if( out[i]>=((r+v)%8) && out[i]<(((r+v)%8)+r) ){
+        if( out[i]>=((r+v)%n) && out[i]<(((r+v)%n)+r) ){
             if(i < n/2)
                 S[out[i]] = p1.S[out[i]];
             else
@@ -537,6 +548,9 @@ int Poblaciones::cruceSegmentoFijo(Solucion &p1, Solucion &p2){
 
     P.push_back(hijo1);
 
+    r = Randint(0,n-1);
+    v = Randint(n/2,n-1); // Favorecemos la explotación
+
     out = vector<int>(n);
     iota(begin(out), end(out), 0);
     random_shuffle(out.begin(), out.end());
@@ -547,7 +561,7 @@ int Poblaciones::cruceSegmentoFijo(Solucion &p1, Solucion &p2){
         S = p2.S;
 
     for(int i=0; i<out.size(); i++){
-        if( out[i]>=((r+v)%8) && out[i]<(((r+v)%8)+r) ){
+        if( out[i]>=((r+v)%n) && out[i]<(((r+v)%n)+r) ){
             if(i < n/2)
                 S[out[i]] = p1.S[out[i]];
             else
@@ -586,7 +600,7 @@ int Poblaciones::cruceSegmentoFijoEstacionario(Solucion &p1, Solucion &p2){
         S = p2.S;
 
     for(int i=0; i<out.size(); i++){
-        if( out[i]>=((r+v)%8) && out[i]<(((r+v)%8)+r) ){
+        if( out[i]>=((r+v)%n) && out[i]<(((r+v)%n)+r) ){
             if(i < n/2)
                 S[out[i]] = p1.S[out[i]];
             else
@@ -678,11 +692,8 @@ void Poblaciones::mutacion(int c, int g){
     recalcularSolucion();
     while(n_c[S[g]] <= 1){
         g = Randint(0,n-1);
-        this->S = P[c].S;
-        recalcularSolucion();
     }
     
-    this->S = P[c].S;
     this->S[g] = Randint(0,k-1);
 
     recalcularSolucion();
@@ -701,8 +712,7 @@ void Poblaciones::mutacionEstacionario(int c, int g){
     recalcularSolucion();
     while(n_c[S[g]] <= 1){
         g = Randint(0,n-1);
-        // this->S = P_t[c].S;
-        recalcularSolucion();
+        // recalcularSolucion();
     }
     
     // this->S = P_t[c].S;
