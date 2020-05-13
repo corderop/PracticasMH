@@ -4,6 +4,7 @@
 #include "greedy.h"
 #include "local.h"
 #include "poblaciones.h"
+#include "es.h"
 
 using namespace std;
 
@@ -45,14 +46,19 @@ int main(int argc, char* argv[]){
         grd.realizarBusqueda();
         grd.mostrarResultado();
     }
-    if(S == "bl"){
+    else if(S == "bl"){
         Local lcl(data, restricciones, clusters);
         lcl.realizarBusqueda();
         lcl.mostrarResultado();
     }
-    if(S == "p"){
+    else if(S == "p"){
         Poblaciones p(data,restricciones,clusters);
         p.realizarBusqueda();
+    }
+    else if(S == "es"){
+        ES es(data, restricciones, clusters);
+        es.realizarBusqueda();
+        es.mostrarResultado();
     }
     cout<<"--------------------------------"<<endl;
 }

@@ -19,7 +19,7 @@ obj/%.o : src/%.cpp
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 valgrind: $(_EXE)
-	valgrind -v --tool=memcheck --leak-check=full --track-origins=yes --show-reachable=yes ./$(_EXE)
+	valgrind -v --tool=memcheck --leak-check=full --track-origins=yes --show-reachable=yes ./$(_EXE) es rand 10 148
 
 clean:
 	rm -r $(OBJ)/* $(_EXE)
@@ -68,7 +68,20 @@ p_ecoli: $(_EXE)
 	$(_EXE) p ecoli 10
 
 p_newthyroid: $(_EXE)
-	$(_EXE) p newthyroid 10 148
+	$(_EXE) p newthyroid 10
+
+# Enfriamiento simulado
+es_rand: $(_EXE)
+	$(_EXE) es rand 10 148
+
+es_iris: $(_EXE)
+	$(_EXE) es iris 10 148
+
+es_ecoli: $(_EXE)
+	$(_EXE) es ecoli 10 148
+
+es_newthyroid: $(_EXE)
+	$(_EXE) es newthyroid 10 148
 
 ##########################################
 # Extración de datos para tablas		
