@@ -22,7 +22,7 @@ class ES : public Busqueda {
         void realizarBusqueda();
 
     protected:
-
+    
         /**
          * @brief Calcula una solución vecina para una dada
          * @param s Solución actual

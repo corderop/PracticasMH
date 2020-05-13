@@ -1,22 +1,27 @@
 #include "es.h"
 
 void ES::realizarBusqueda(){
-    Solucion s, s_aux, mejor_sol;
-
-    // Tomo el valor inicial de T
+    Solucion s, s_new, mejor_sol;
+    int ev = 0;
 
     // Genero la solución inicial y la tomo como mejor solución
     generarSolucionInicial();
     funcionObjetivo();
+    ev++;
     s = (*this);
     mejor_sol = s;
 
-    do{
+    // Tomo el valor inicial de T
+    double T = ( 0.3*s.obj) / 0.3,
+           T_f = 0.001;
+
+    while(T <= T_f){
         for(){
-            // s' <- nueva solución a partir de actual
-            // Calculo la diferencia de costos
-            double diferencia_costos = s1.obj - s.obj;
-            if( diferencia_costos < 0) ||  /* U(0,1) */){
+            s_new = solucionVecina(s);  // Calcula la nueva solución
+            ev++;
+            double dif = s_new.obj - s.obj; // Calculo la diferencia de costos
+
+            if( dif < 0) ||  /* U(0,1) */){
                 s = s1;
 
                 if( s < mejor_sol )
@@ -24,7 +29,7 @@ void ES::realizarBusqueda(){
             }
         }
         // Calculo de la nueva temperatura
-    }while(/* T <= Tfinal */);
+    }
 
 }
 
