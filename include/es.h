@@ -23,7 +23,12 @@ class ES : public Busqueda {
 
     protected:
 
-        Solucion cambioCluster(const Solucion &s);
+        /**
+         * @brief Calcula una solución vecina para una dada
+         * @param s Solución actual
+         * @return Solución vecina generada aleatoriamente
+         */
+        Solucion solucionVecina(const Solucion &s);
 
         ES& operator=(const Solucion &s);
 };
