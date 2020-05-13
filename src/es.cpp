@@ -12,23 +12,29 @@ void ES::realizarBusqueda(){
     mejor_sol = s;
 
     // Tomo el valor inicial de T
-    double T = ( 0.3*s.obj) / 0.3,
-           T_f = 0.001;
+    double T = ( _mu*s.obj) / _phi;
+    int max_vecinos = 10*n;
+    int max_exitos = 0.1*max_vecinos;
+    double M = 100000/(max_vecinos*max_vecinos);
+    double beta = (T-T_f)/(M*T*T_f);
 
-    while(T <= T_f){
-        for(){
+    while(T <= T_f && ev < 100000){
+        int exitos = 0;
+
+        for(int i=0 ; i<max_vecinos && exitos<max_exitos ; i++){
             s_new = solucionVecina(s);  // Calcula la nueva solución
             ev++;
             double dif = s_new.obj - s.obj; // Calculo la diferencia de costos
 
-            if( dif < 0) ||  /* U(0,1) */){
+            if( dif < 0) || Randdouble(0,1)<= exp(-dif/T)){
                 s = s1;
-
+                exitos++;
                 if( s < mejor_sol )
                     mejor_sol = s;
             }
         }
         // Calculo de la nueva temperatura
+        T = T/(1+beta*T);
     }
 
 }

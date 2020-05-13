@@ -22,7 +22,12 @@ class ES : public Busqueda {
         void realizarBusqueda();
 
     protected:
-    
+
+        // Características del algoritmo
+        double _mu = 0.3;
+        double _phi = 0.3;
+        double T_f = 0.001;
+
         /**
          * @brief Calcula una solución vecina para una dada
          * @param s Solución actual
