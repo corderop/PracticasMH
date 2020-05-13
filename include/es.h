@@ -23,6 +23,8 @@ class ES : public Busqueda {
 
     protected:
 
+        Solucion cambioCluster(const Solucion &s);
+
         ES& operator=(const Solucion &s);
 };
 

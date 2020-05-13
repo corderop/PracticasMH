@@ -608,7 +608,7 @@ int Poblaciones::cruceSegmentoFijoEstacionario(Solucion &p1, Solucion &p2){
         }
     }
 
-    recalcularSolucion();
+    this->recalcularSolucion();
     funcionObjetivo();
     
     hijo1 = (*this);
@@ -633,7 +633,7 @@ int Poblaciones::cruceSegmentoFijoEstacionario(Solucion &p1, Solucion &p2){
         }
     }
 
-    recalcularSolucion();
+    this->recalcularSolucion();
     funcionObjetivo();
     
     hijo2 = (*this);
@@ -644,59 +644,18 @@ int Poblaciones::cruceSegmentoFijoEstacionario(Solucion &p1, Solucion &p2){
     return calculoObjetivo;
 }
 
-void Poblaciones::recalcularSolucion(){
-    this->C = vector<vector<int>>(k, vector<int>(0));
-    this->c_ic = vector<double>(k);
-    this->inf_total = 0;
-    this->U = vector<vector<double>>(k, vector<double>(X[0].size()));
-    this->num_vacios = k;
-    this->n_c = vector<int>(k,0);
-    this->C_vacios = vector<bool>(k, false);
-
-    for(int i=0; i<this->S.size(); i++){
-        C[S[i]].push_back(i);
-        if(C[S[i]].size() == 1){
-            num_vacios--;
-            C_vacios[S[i]] = true;
-        }
-        n_c[S[i]]++;
-    }
-
-    // Si no hay ninguno vacio no entra
-    if(num_vacios != 0){
-        for(int i=0; i<C_vacios.size(); i++){
-            if(!C_vacios[i]){
-                int random;
-
-                do{
-                   random = Randint(0, C.size()-1); 
-                }while(n_c[random]<=1);
-
-                int anterior = C[random][C[random].size()-1];
-                C[random].pop_back();
-                S[anterior] = i;
-                C[i].push_back(anterior);
-                num_vacios--;
-                C_vacios[i] = true;
-            }
-        }
-    }
-
-    for(int i=0; i<this->C.size(); i++)
-        calcularCentroide(i);
-}
 
 void Poblaciones::mutacion(int c, int g){
     // Comprueba que no deje un cluster vacio
     this->S = P[c].S;
-    recalcularSolucion();
+    this->recalcularSolucion();
     while(n_c[S[g]] <= 1){
         g = Randint(0,n-1);
     }
     
     this->S[g] = Randint(0,k-1);
 
-    recalcularSolucion();
+    this->recalcularSolucion();
     funcionObjetivo();
 
     Solucion mut;

@@ -104,6 +104,11 @@ class Busqueda{
          */
         void generarSolucionInicial();
 
+        /**
+         * @brief Recalcula la solución cuando se ha actualizado S
+         */
+        void recalcularSolucion();
+
         friend class Solucion;
 };
 

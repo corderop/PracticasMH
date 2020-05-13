@@ -68,7 +68,7 @@ p_ecoli: $(_EXE)
 	$(_EXE) p ecoli 10
 
 p_newthyroid: $(_EXE)
-	$(_EXE) p newthyroid 10
+	$(_EXE) p newthyroid 10 148
 
 ##########################################
 # Extración de datos para tablas		

@@ -99,11 +99,6 @@ class Poblaciones : public Busqueda {
         void generarSolucionInicial();
 
         /**
-         * @brief Recalcula la solución cuando se ha actualizado S
-         */
-        void recalcularSolucion();
-
-        /**
          * @brief Realiza la mutación uniforme
          * @param c Número de cromosoma
          * @param g Número de gen
