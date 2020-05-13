@@ -99,6 +99,11 @@ class Busqueda{
          */
         void funcionObjetivo();
 
+        /**
+         * @brief Genera una solución inicial para la BL
+         */
+        void generarSolucionInicial();
+
         friend class Solucion;
 };
 
