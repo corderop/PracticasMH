@@ -23,7 +23,7 @@ class ES : public Busqueda {
 
     protected:
 
-
+        ES& operator=(const Solucion &s);
 };
 
 #endif
