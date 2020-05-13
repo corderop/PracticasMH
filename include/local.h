@@ -24,11 +24,6 @@ class Local : public Busqueda {
     protected:
 
         /**
-         * @brief Genera una solución inicial para la BL
-         */
-        void generarSolucionInicial();
-
-        /**
          * @brief Recalcula F para un cambio
          */
         double recalcularF(const pair<int,int> &cambio);

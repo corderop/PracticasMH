@@ -33,41 +33,6 @@ void Local::realizarBusqueda(){
 	time = ( double(t1-t0)/CLOCKS_PER_SEC );
 }
 
-
-void Local::generarSolucionInicial(){
-    
-    for(int i=0; i<n; i++){
-        if( (n-i) != num_vacios ){
-            int num = Randint(0,k-1);
-            n_c[num]++;
-            S[i] = num;
-			C[num].push_back(i);
-            if(!C_vacios[num]){
-                num_vacios--;
-                C_vacios[num] =true;
-            }
-        }
-        else{
-            bool introducido = false;
-            for(int j=0; j<C_vacios.size() && !introducido; j++){
-                if(!C_vacios[j]){
-                    introducido = true;
-                    C_vacios[j] = true;
-                    n_c[j]++;
-                    num_vacios--;
-                    S[i] = j;
-					C[j].push_back(i);
-                }
-            }
-        }
-    }
-
-	// Calcula los centroides
-	for(int i=0; i<k; i++)
-        calcularCentroide(i);
-}
-
-
 double Local::recalcularF(const pair<int,int> &cambio){
 	int cluster_nuevo = cambio.second;
 	int cluster_anterior = S[cambio.first];
