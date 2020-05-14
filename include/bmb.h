@@ -1,9 +1,9 @@
 #ifndef _BMB_H_
 #define _BMB_H_
 
-#include "busqueda.h"
+#include "local.h"
 
-class BMB : public Busqueda {
+class BMB : public Local {
 
     public:
 
@@ -14,12 +14,12 @@ class BMB : public Busqueda {
          * @param _k Número de clusters
          */
         BMB(vector<vector<double>> _X, vector<vector<int>> _MR, int _k) 
-            : Busqueda(_X, _MR, _k){};    
+            : Local(_X, _MR, _k){};  
 
         /**
          * @brief Realiza la búsqueda del resultado
          */
-        void realizarBusqueda();
+        void realizarBusquedaBMB();
 
     protected:
 

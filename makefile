@@ -51,7 +51,7 @@ bl_iris: $(_EXE)
 	$(_EXE) bl iris 10
 
 bl_ecoli: $(_EXE)
-	$(_EXE) bl ecoli 10
+	$(_EXE) bl ecoli 10 148
 
 bl_newthyroid: $(_EXE)
 	$(_EXE) bl newthyroid 10
@@ -187,30 +187,30 @@ bl_data: $(_EXE)
 	./$(_EXE) bl newthyroid 20 3214 >> salidaBL
 
 p_data: $(_EXE)
-	# echo -e "RAND10 ----------------" > salidaP
-	# ./$(_EXE) p rand 10 148 >> salidaP
-	# ./$(_EXE) p rand 10 876 >> salidaP
-	# ./$(_EXE) p rand 10 8942 >> salidaP
-	# ./$(_EXE) p rand 10 4526 >> salidaP
-	# ./$(_EXE) p rand 10 3214 >> salidaP
-	# echo -e "IRIS10 ----------------" >> salidaP
-	# ./$(_EXE) p iris 10 148 >> salidaP
-	# ./$(_EXE) p iris 10 876 >> salidaP
-	# ./$(_EXE) p iris 10 8942 >> salidaP
-	# ./$(_EXE) p iris 10 4526 >> salidaP
-	# ./$(_EXE) p iris 10 3214 >> salidaP
-	# echo -e "ECOLI10 ----------------" >> salidaP
-	# ./$(_EXE) p ecoli 10 148 >> salidaP
-	# ./$(_EXE) p ecoli 10 876 >> salidaP
-	# ./$(_EXE) p ecoli 10 8942 >> salidaP
-	# ./$(_EXE) p ecoli 10 4526 >> salidaP
-	# ./$(_EXE) p ecoli 10 3214 >> salidaP
-	# echo -e "NEWTHYROID10 ----------------" >> salidaP
-	# ./$(_EXE) p newthyroid 10 148 >> salidaP
-	# ./$(_EXE) p newthyroid 10 876 >> salidaP
-	# ./$(_EXE) p newthyroid 10 8942 >> salidaP
-	# ./$(_EXE) p newthyroid 10 4526 >> salidaP
-	# ./$(_EXE) p newthyroid 10 3214 >> salidaP
+	echo -e "RAND10 ----------------" > salidaP
+	./$(_EXE) p rand 10 148 >> salidaP
+	./$(_EXE) p rand 10 876 >> salidaP
+	./$(_EXE) p rand 10 8942 >> salidaP
+	./$(_EXE) p rand 10 4526 >> salidaP
+	./$(_EXE) p rand 10 3214 >> salidaP
+	echo -e "IRIS10 ----------------" >> salidaP
+	./$(_EXE) p iris 10 148 >> salidaP
+	./$(_EXE) p iris 10 876 >> salidaP
+	./$(_EXE) p iris 10 8942 >> salidaP
+	./$(_EXE) p iris 10 4526 >> salidaP
+	./$(_EXE) p iris 10 3214 >> salidaP
+	echo -e "ECOLI10 ----------------" >> salidaP
+	./$(_EXE) p ecoli 10 148 >> salidaP
+	./$(_EXE) p ecoli 10 876 >> salidaP
+	./$(_EXE) p ecoli 10 8942 >> salidaP
+	./$(_EXE) p ecoli 10 4526 >> salidaP
+	./$(_EXE) p ecoli 10 3214 >> salidaP
+	echo -e "NEWTHYROID10 ----------------" >> salidaP
+	./$(_EXE) p newthyroid 10 148 >> salidaP
+	./$(_EXE) p newthyroid 10 876 >> salidaP
+	./$(_EXE) p newthyroid 10 8942 >> salidaP
+	./$(_EXE) p newthyroid 10 4526 >> salidaP
+	./$(_EXE) p newthyroid 10 3214 >> salidaP
 	echo -e "RAND20 ----------------" > salidaP
 	./$(_EXE) p rand 20 148 >> salidaP
 	./$(_EXE) p rand 20 876 >> salidaP

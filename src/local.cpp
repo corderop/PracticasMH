@@ -6,11 +6,13 @@ void Local::realizarBusqueda(){
 
 	t0 = clock();
 
-    generarSolucionInicial();
-	funcionObjetivo();
-
+    if(nueva_sol){
+        generarSolucionInicial();
+        funcionObjetivo();
+    }
+    
 	bool encontrado;
-	int contador = 100000;
+	int contador = max_ev;
 
     do{
 		vector<pair<int,int>> V = generamosVecindario();

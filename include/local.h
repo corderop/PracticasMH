@@ -23,6 +23,9 @@ class Local : public Busqueda {
 
     protected:
 
+        bool nueva_sol = true;
+        int max_ev = 100000;
+
         /**
          * @brief Recalcula F para un cambio
          */
