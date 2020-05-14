@@ -3,8 +3,11 @@
 void BMB::realizarBusquedaBMB(){
     unsigned t0, t1;
     int ev = 0;
-    Solucion s, s_new, mejor_sol;
-    Local lcl;
+    Solucion mejor_sol;
+    mejor_sol.obj = 999999;
+    this->nueva_sol = false;
+    this->max_ev = 10000;
+
 
     t0 = clock();
 
@@ -13,9 +16,16 @@ void BMB::realizarBusquedaBMB(){
         funcionObjetivo();
 
         // Aplicar BL
+        realizarBusqueda();
 
         // Comparar si es la mejor
+        if(mejor_sol.obj > this->obj)
+            mejor_sol = (*this);
     }
+
+    (*this) = mejor_sol;
+    this->recalcularSolucion();
+    this->funcionObjetivo();
 
     t1 = clock();
     time = ( double(t1-t0)/CLOCKS_PER_SEC );

@@ -5,6 +5,7 @@
 #include "local.h"
 #include "poblaciones.h"
 #include "es.h"
+#include "bmb.h"
 
 using namespace std;
 
@@ -59,6 +60,11 @@ int main(int argc, char* argv[]){
         ES es(data, restricciones, clusters);
         es.realizarBusqueda();
         es.mostrarResultado();
+    }
+    else if(S == "bmb"){
+        BMB bmb(data, restricciones, clusters);
+        bmb.realizarBusquedaBMB();
+        bmb.mostrarResultado();
     }
     cout<<"--------------------------------"<<endl;
 }

@@ -83,6 +83,19 @@ es_ecoli: $(_EXE)
 es_newthyroid: $(_EXE)
 	$(_EXE) es newthyroid 10 148
 
+# BMB
+bmb_rand: $(_EXE)
+	$(_EXE) bmb rand 10 148
+
+bmb_iris: $(_EXE)
+	$(_EXE) bmb iris 10 148
+
+bmb_ecoli: $(_EXE)
+	$(_EXE) bmb ecoli 10 148
+
+bmb_newthyroid: $(_EXE)
+	$(_EXE) bmb newthyroid 10 148
+
 ##########################################
 # Extración de datos para tablas		
 ##########################################
