@@ -6,9 +6,11 @@ void ES::realizarBusqueda(){
     int ev = 0;
 
     // Genero la solución inicial y la tomo como mejor solución
-    generarSolucionInicial();
-    funcionObjetivo();
-    ev++;
+    if(nueva_sol){
+        generarSolucionInicial();
+        funcionObjetivo();
+        ev++;
+    }
     s = (*this);
     mejor_sol = s;
 
@@ -18,10 +20,10 @@ void ES::realizarBusqueda(){
     double T = ( _mu*s.obj) / (-log(_phi));
     int max_vecinos = 10*n;
     int max_exitos = 0.1*max_vecinos;
-    double M = 100000/max_vecinos;
+    double M = max_ev/max_vecinos;
     double beta = (T-T_f)/(M*T*T_f);
 
-    while(T > T_f && ev < 100000){
+    while(T > T_f && ev < max_ev){
         int exitos = 0;
 
         for(int i=0 ; i<max_vecinos && exitos<max_exitos ; i++){

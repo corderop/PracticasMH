@@ -7,6 +7,7 @@
 #include "es.h"
 #include "bmb.h"
 #include "ils.h"
+#include "ils-es.h"
 
 using namespace std;
 
@@ -71,6 +72,11 @@ int main(int argc, char* argv[]){
         ILS ils(data, restricciones, clusters);
         ils.realizarBusquedaILS();
         ils.mostrarResultado();
+    }
+    else if(S == "ils_es"){
+        ILS_ES ils_es(data, restricciones, clusters);
+        ils_es.realizarBusquedaILS();
+        ils_es.mostrarResultado();
     }
     cout<<"--------------------------------"<<endl;
 }

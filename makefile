@@ -109,6 +109,19 @@ ils_ecoli: $(_EXE)
 ils_newthyroid: $(_EXE)
 	$(_EXE) ils newthyroid 10 148
 
+# ILS-es
+ils_es_rand: $(_EXE)
+	$(_EXE) ils_es rand 10 148
+
+ils_es_iris: $(_EXE)
+	$(_EXE) ils_es iris 10 148
+
+ils_es_ecoli: $(_EXE)
+	$(_EXE) ils_es ecoli 10 148
+
+ils_es_newthyroid: $(_EXE)
+	$(_EXE) ils_es newthyroid 10 148
+
 ##########################################
 # Extración de datos para tablas		
 ##########################################

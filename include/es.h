@@ -27,6 +27,8 @@ class ES : public Busqueda {
         double _mu = 0.3;
         double _phi = 0.3;
         double T_f = 0.001;
+        int max_ev = 100000;
+        bool nueva_sol = true;
 
         /**
          * @brief Calcula una solución vecina para una dada
