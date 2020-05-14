@@ -18,7 +18,7 @@ void ES::realizarBusqueda(){
     double T = ( _mu*s.obj) / (-log(_phi));
     int max_vecinos = 10*n;
     int max_exitos = 0.1*max_vecinos;
-    double M = (100000/max_vecinos)*(100000/max_vecinos);
+    double M = 100000/max_vecinos;
     double beta = (T-T_f)/(M*T*T_f);
 
     while(T > T_f && ev < 100000){
