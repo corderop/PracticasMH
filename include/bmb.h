@@ -22,14 +22,7 @@ class BMB : public Local {
         void realizarBusquedaBMB();
 
     protected:
-
-        /**
-         * @brief Calcula una solución vecina para una dada
-         * @param s Solución actual
-         * @return Solución vecina generada aleatoriamente
-         */
-        // Solucion solucionVecina(const Solucion &s);
-
+    
         BMB& operator=(const Solucion &s);
 };
 

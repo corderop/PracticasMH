@@ -6,6 +6,7 @@
 #include "poblaciones.h"
 #include "es.h"
 #include "bmb.h"
+#include "ils.h"
 
 using namespace std;
 
@@ -65,6 +66,11 @@ int main(int argc, char* argv[]){
         BMB bmb(data, restricciones, clusters);
         bmb.realizarBusquedaBMB();
         bmb.mostrarResultado();
+    }
+    else if(S == "ils"){
+        ILS ils(data, restricciones, clusters);
+        ils.realizarBusquedaILS();
+        ils.mostrarResultado();
     }
     cout<<"--------------------------------"<<endl;
 }

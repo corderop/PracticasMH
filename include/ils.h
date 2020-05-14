@@ -1,9 +1,9 @@
 #ifndef _ILS_H_
 #define _ILS_H_
 
-#include "busqueda.h"
+#include "local.h"
 
-class ILS : public Busqueda {
+class ILS : public Local {
 
     public:
 
@@ -14,21 +14,16 @@ class ILS : public Busqueda {
          * @param _k Número de clusters
          */
         ILS(vector<vector<double>> _X, vector<vector<int>> _MR, int _k) 
-            : Busqueda(_X, _MR, _k){};    
+            : Local(_X, _MR, _k){};    
 
         /**
          * @brief Realiza la búsqueda del resultado
          */
-        void realizarBusqueda();
+        void realizarBusquedaILS();
 
     protected:
 
-        /**
-         * @brief Calcula una solución vecina para una dada
-         * @param s Solución actual
-         * @return Solución vecina generada aleatoriamente
-         */
-        // Solucion solucionVecina(const Solucion &s);
+        void mutacion();
 
         ILS& operator=(const Solucion &s);
 };

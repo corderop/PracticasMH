@@ -96,6 +96,19 @@ bmb_ecoli: $(_EXE)
 bmb_newthyroid: $(_EXE)
 	$(_EXE) bmb newthyroid 10 148
 
+# ILS
+ils_rand: $(_EXE)
+	$(_EXE) ils rand 10 148
+
+ils_iris: $(_EXE)
+	$(_EXE) ils iris 10 148
+
+ils_ecoli: $(_EXE)
+	$(_EXE) ils ecoli 10 148
+
+ils_newthyroid: $(_EXE)
+	$(_EXE) ils newthyroid 10 148
+
 ##########################################
 # Extración de datos para tablas		
 ##########################################
