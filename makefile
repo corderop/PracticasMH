@@ -7,7 +7,7 @@ _EXE=bin/main_exe
 _CPP = $(wildcard src/*.cpp))
 _OBJ = $(addprefix obj/, $(notdir $(addsuffix .o, $(basename $(_CPP)))))
 
-all: $(_EXE)
+all: es_data bmb_data ils_data ils_es_data
 
 depurar: $(_EXE)
 	gdb $(_EXE)
@@ -51,7 +51,7 @@ bl_iris: $(_EXE)
 	$(_EXE) bl iris 10
 
 bl_ecoli: $(_EXE)
-	$(_EXE) bl ecoli 10 148
+	$(_EXE) bl ecoli 10
 
 bl_newthyroid: $(_EXE)
 	$(_EXE) bl newthyroid 10
@@ -72,55 +72,55 @@ p_newthyroid: $(_EXE)
 
 # Enfriamiento simulado
 es_rand: $(_EXE)
-	$(_EXE) es rand 10 148
+	$(_EXE) es rand 10
 
 es_iris: $(_EXE)
-	$(_EXE) es iris 10 148
+	$(_EXE) es iris 10
 
 es_ecoli: $(_EXE)
-	$(_EXE) es ecoli 10 148
+	$(_EXE) es ecoli 10
 
 es_newthyroid: $(_EXE)
-	$(_EXE) es newthyroid 10 148
+	$(_EXE) es newthyroid 10
 
 # BMB
 bmb_rand: $(_EXE)
-	$(_EXE) bmb rand 10 148
+	$(_EXE) bmb rand 10
 
 bmb_iris: $(_EXE)
-	$(_EXE) bmb iris 10 148
+	$(_EXE) bmb iris 10
 
 bmb_ecoli: $(_EXE)
-	$(_EXE) bmb ecoli 10 148
+	$(_EXE) bmb ecoli 10
 
 bmb_newthyroid: $(_EXE)
-	$(_EXE) bmb newthyroid 10 148
+	$(_EXE) bmb newthyroid 10
 
 # ILS
 ils_rand: $(_EXE)
-	$(_EXE) ils rand 10 148
+	$(_EXE) ils rand 10
 
 ils_iris: $(_EXE)
-	$(_EXE) ils iris 10 148
+	$(_EXE) ils iris 10
 
 ils_ecoli: $(_EXE)
-	$(_EXE) ils ecoli 10 148
+	$(_EXE) ils ecoli 10
 
 ils_newthyroid: $(_EXE)
-	$(_EXE) ils newthyroid 10 148
+	$(_EXE) ils newthyroid 10
 
 # ILS-es
 ils_es_rand: $(_EXE)
-	$(_EXE) ils_es rand 10 148
+	$(_EXE) ils_es rand 10
 
 ils_es_iris: $(_EXE)
-	$(_EXE) ils_es iris 10 148
+	$(_EXE) ils_es iris 10
 
 ils_es_ecoli: $(_EXE)
-	$(_EXE) ils_es ecoli 10 148
+	$(_EXE) ils_es ecoli 10
 
 ils_es_newthyroid: $(_EXE)
-	$(_EXE) ils_es newthyroid 10 148
+	$(_EXE) ils_es newthyroid 10
 
 ##########################################
 # Extración de datos para tablas		
@@ -274,3 +274,203 @@ p_data: $(_EXE)
 	./$(_EXE) p newthyroid 20 8942 >> salidaP
 	./$(_EXE) p newthyroid 20 4526 >> salidaP
 	./$(_EXE) p newthyroid 20 3214 >> salidaP
+
+es_data: $(_EXE)
+	echo -e "RAND10 ----------------" > salidaES
+	./$(_EXE) es rand 10 148 >> salidaES
+	./$(_EXE) es rand 10 876 >> salidaES
+	./$(_EXE) es rand 10 8942 >> salidaES
+	./$(_EXE) es rand 10 4526 >> salidaES
+	./$(_EXE) es rand 10 3214 >> salidaES
+	echo -e "IRIS10 ----------------" >> salidaES
+	./$(_EXE) es iris 10 148 >> salidaES
+	./$(_EXE) es iris 10 876 >> salidaES
+	./$(_EXE) es iris 10 8942 >> salidaES
+	./$(_EXE) es iris 10 4526 >> salidaES
+	./$(_EXE) es iris 10 3214 >> salidaES
+	echo -e "ECOLI10 ----------------" >> salidaES
+	./$(_EXE) es ecoli 10 148 >> salidaES
+	./$(_EXE) es ecoli 10 876 >> salidaES
+	./$(_EXE) es ecoli 10 8942 >> salidaES
+	./$(_EXE) es ecoli 10 4526 >> salidaES
+	./$(_EXE) es ecoli 10 3214 >> salidaES
+	echo -e "NEWTHYROID10 ----------------" >> salidaES
+	./$(_EXE) es newthyroid 10 148 >> salidaES
+	./$(_EXE) es newthyroid 10 876 >> salidaES
+	./$(_EXE) es newthyroid 10 8942 >> salidaES
+	./$(_EXE) es newthyroid 10 4526 >> salidaES
+	./$(_EXE) es newthyroid 10 3214 >> salidaES
+	echo -e "RAND20 ----------------" >> salidaES
+	./$(_EXE) es rand 20 148 >> salidaES
+	./$(_EXE) es rand 20 876 >> salidaES
+	./$(_EXE) es rand 20 8942 >> salidaES
+	./$(_EXE) es rand 20 4526 >> salidaES
+	./$(_EXE) es rand 20 3214 >> salidaES
+	echo -e "IRIS20 ----------------" >> salidaES
+	./$(_EXE) es iris 20 148 >> salidaES
+	./$(_EXE) es iris 20 876 >> salidaES
+	./$(_EXE) es iris 20 8942 >> salidaES
+	./$(_EXE) es iris 20 4526 >> salidaES
+	./$(_EXE) es iris 20 3214 >> salidaES
+	echo -e "ECOLI20 ----------------" >> salidaES
+	./$(_EXE) es ecoli 20 148 >> salidaES
+	./$(_EXE) es ecoli 20 876 >> salidaES
+	./$(_EXE) es ecoli 20 8942 >> salidaES
+	./$(_EXE) es ecoli 20 4526 >> salidaES
+	./$(_EXE) es ecoli 20 3214 >> salidaES
+	echo -e "NEWTHYROID20 ----------------" >> salidaES
+	./$(_EXE) es newthyroid 20 148 >> salidaES
+	./$(_EXE) es newthyroid 20 876 >> salidaES
+	./$(_EXE) es newthyroid 20 8942 >> salidaES
+	./$(_EXE) es newthyroid 20 4526 >> salidaES
+	./$(_EXE) es newthyroid 20 3214 >> salidaES
+
+bmb_data: $(_EXE)
+	echo -e "RAND10 ----------------" > salidaBMB
+	./$(_EXE) bmb rand 10 148 >> salidaBMB
+	./$(_EXE) bmb rand 10 876 >> salidaBMB
+	./$(_EXE) bmb rand 10 8942 >> salidaBMB
+	./$(_EXE) bmb rand 10 4526 >> salidaBMB
+	./$(_EXE) bmb rand 10 3214 >> salidaBMB
+	echo -e "IRIS10 ----------------" >> salidaBMB
+	./$(_EXE) bmb iris 10 148 >> salidaBMB
+	./$(_EXE) bmb iris 10 876 >> salidaBMB
+	./$(_EXE) bmb iris 10 8942 >> salidaBMB
+	./$(_EXE) bmb iris 10 4526 >> salidaBMB
+	./$(_EXE) bmb iris 10 3214 >> salidaBMB
+	echo -e "ECOLI10 ----------------" >> salidaBMB
+	./$(_EXE) bmb ecoli 10 148 >> salidaBMB
+	./$(_EXE) bmb ecoli 10 876 >> salidaBMB
+	./$(_EXE) bmb ecoli 10 8942 >> salidaBMB
+	./$(_EXE) bmb ecoli 10 4526 >> salidaBMB
+	./$(_EXE) bmb ecoli 10 3214 >> salidaBMB
+	echo -e "NEWTHYROID10 ----------------" >> salidaBMB
+	./$(_EXE) bmb newthyroid 10 148 >> salidaBMB
+	./$(_EXE) bmb newthyroid 10 876 >> salidaBMB
+	./$(_EXE) bmb newthyroid 10 8942 >> salidaBMB
+	./$(_EXE) bmb newthyroid 10 4526 >> salidaBMB
+	./$(_EXE) bmb newthyroid 10 3214 >> salidaBMB
+	echo -e "RAND20 ----------------" >> salidaBMB
+	./$(_EXE) bmb rand 20 148 >> salidaBMB
+	./$(_EXE) bmb rand 20 876 >> salidaBMB
+	./$(_EXE) bmb rand 20 8942 >> salidaBMB
+	./$(_EXE) bmb rand 20 4526 >> salidaBMB
+	./$(_EXE) bmb rand 20 3214 >> salidaBMB
+	echo -e "IRIS20 ----------------" >> salidaBMB
+	./$(_EXE) bmb iris 20 148 >> salidaBMB
+	./$(_EXE) bmb iris 20 876 >> salidaBMB
+	./$(_EXE) bmb iris 20 8942 >> salidaBMB
+	./$(_EXE) bmb iris 20 4526 >> salidaBMB
+	./$(_EXE) bmb iris 20 3214 >> salidaBMB
+	echo -e "ECOLI20 ----------------" >> salidaBMB
+	./$(_EXE) bmb ecoli 20 148 >> salidaBMB
+	./$(_EXE) bmb ecoli 20 876 >> salidaBMB
+	./$(_EXE) bmb ecoli 20 8942 >> salidaBMB
+	./$(_EXE) bmb ecoli 20 4526 >> salidaBMB
+	./$(_EXE) bmb ecoli 20 3214 >> salidaBMB
+	echo -e "NEWTHYROID20 ----------------" >> salidaBMB
+	./$(_EXE) bmb newthyroid 20 148 >> salidaBMB
+	./$(_EXE) bmb newthyroid 20 876 >> salidaBMB
+	./$(_EXE) bmb newthyroid 20 8942 >> salidaBMB
+	./$(_EXE) bmb newthyroid 20 4526 >> salidaBMB
+	./$(_EXE) bmb newthyroid 20 3214 >> salidaBMB
+
+ils_data: $(_EXE)
+	echo -e "RAND10 ----------------" > salidaILS
+	./$(_EXE) ils rand 10 148 >> salidaILS
+	./$(_EXE) ils rand 10 876 >> salidaILS
+	./$(_EXE) ils rand 10 8942 >> salidaILS
+	./$(_EXE) ils rand 10 4526 >> salidaILS
+	./$(_EXE) ils rand 10 3214 >> salidaILS
+	echo -e "IRIS10 ----------------" >> salidaILS
+	./$(_EXE) ils iris 10 148 >> salidaILS
+	./$(_EXE) ils iris 10 876 >> salidaILS
+	./$(_EXE) ils iris 10 8942 >> salidaILS
+	./$(_EXE) ils iris 10 4526 >> salidaILS
+	./$(_EXE) ils iris 10 3214 >> salidaILS
+	echo -e "ECOLI10 ----------------" >> salidaILS
+	./$(_EXE) ils ecoli 10 148 >> salidaILS
+	./$(_EXE) ils ecoli 10 876 >> salidaILS
+	./$(_EXE) ils ecoli 10 8942 >> salidaILS
+	./$(_EXE) ils ecoli 10 4526 >> salidaILS
+	./$(_EXE) ils ecoli 10 3214 >> salidaILS
+	echo -e "NEWTHYROID10 ----------------" >> salidaILS
+	./$(_EXE) ils newthyroid 10 148 >> salidaILS
+	./$(_EXE) ils newthyroid 10 876 >> salidaILS
+	./$(_EXE) ils newthyroid 10 8942 >> salidaILS
+	./$(_EXE) ils newthyroid 10 4526 >> salidaILS
+	./$(_EXE) ils newthyroid 10 3214 >> salidaILS
+	echo -e "RAND20 ----------------" >> salidaILS
+	./$(_EXE) ils rand 20 148 >> salidaILS
+	./$(_EXE) ils rand 20 876 >> salidaILS
+	./$(_EXE) ils rand 20 8942 >> salidaILS
+	./$(_EXE) ils rand 20 4526 >> salidaILS
+	./$(_EXE) ils rand 20 3214 >> salidaILS
+	echo -e "IRIS20 ----------------" >> salidaILS
+	./$(_EXE) ils iris 20 148 >> salidaILS
+	./$(_EXE) ils iris 20 876 >> salidaILS
+	./$(_EXE) ils iris 20 8942 >> salidaILS
+	./$(_EXE) ils iris 20 4526 >> salidaILS
+	./$(_EXE) ils iris 20 3214 >> salidaILS
+	echo -e "ECOLI20 ----------------" >> salidaILS
+	./$(_EXE) ils ecoli 20 148 >> salidaILS
+	./$(_EXE) ils ecoli 20 876 >> salidaILS
+	./$(_EXE) ils ecoli 20 8942 >> salidaILS
+	./$(_EXE) ils ecoli 20 4526 >> salidaILS
+	./$(_EXE) ils ecoli 20 3214 >> salidaILS
+	echo -e "NEWTHYROID20 ----------------" >> salidaILS
+	./$(_EXE) ils newthyroid 20 148 >> salidaILS
+	./$(_EXE) ils newthyroid 20 876 >> salidaILS
+	./$(_EXE) ils newthyroid 20 8942 >> salidaILS
+	./$(_EXE) ils newthyroid 20 4526 >> salidaILS
+	./$(_EXE) ils newthyroid 20 3214 >> salidaILS
+
+ils_es_data: $(_EXE)
+	echo -e "RAND10 ----------------" > salidaILS-ES
+	./$(_EXE) ils_es rand 10 148 >> salidaILS-ES
+	./$(_EXE) ils_es rand 10 876 >> salidaILS-ES
+	./$(_EXE) ils_es rand 10 8942 >> salidaILS-ES
+	./$(_EXE) ils_es rand 10 4526 >> salidaILS-ES
+	./$(_EXE) ils_es rand 10 3214 >> salidaILS-ES
+	echo -e "IRIS10 ----------------" >> salidaILS-ES
+	./$(_EXE) ils_es iris 10 148 >> salidaILS-ES
+	./$(_EXE) ils_es iris 10 876 >> salidaILS-ES
+	./$(_EXE) ils_es iris 10 8942 >> salidaILS-ES
+	./$(_EXE) ils_es iris 10 4526 >> salidaILS-ES
+	./$(_EXE) ils_es iris 10 3214 >> salidaILS-ES
+	echo -e "ECOLI10 ----------------" >> salidaILS-ES
+	./$(_EXE) ils_es ecoli 10 148 >> salidaILS-ES
+	./$(_EXE) ils_es ecoli 10 876 >> salidaILS-ES
+	./$(_EXE) ils_es ecoli 10 8942 >> salidaILS-ES
+	./$(_EXE) ils_es ecoli 10 4526 >> salidaILS-ES
+	./$(_EXE) ils_es ecoli 10 3214 >> salidaILS-ES
+	echo -e "NEWTHYROID10 ----------------" >> salidaILS-ES
+	./$(_EXE) ils_es newthyroid 10 148 >> salidaILS-ES
+	./$(_EXE) ils_es newthyroid 10 876 >> salidaILS-ES
+	./$(_EXE) ils_es newthyroid 10 8942 >> salidaILS-ES
+	./$(_EXE) ils_es newthyroid 10 4526 >> salidaILS-ES
+	./$(_EXE) ils_es newthyroid 10 3214 >> salidaILS-ES
+	echo -e "RAND20 ----------------" >> salidaILS-ES
+	./$(_EXE) ils_es rand 20 148 >> salidaILS-ES
+	./$(_EXE) ils_es rand 20 876 >> salidaILS-ES
+	./$(_EXE) ils_es rand 20 8942 >> salidaILS-ES
+	./$(_EXE) ils_es rand 20 4526 >> salidaILS-ES
+	./$(_EXE) ils_es rand 20 3214 >> salidaILS-ES
+	echo -e "IRIS20 ----------------" >> salidaILS-ES
+	./$(_EXE) ils_es iris 20 148 >> salidaILS-ES
+	./$(_EXE) ils_es iris 20 876 >> salidaILS-ES
+	./$(_EXE) ils_es iris 20 8942 >> salidaILS-ES
+	./$(_EXE) ils_es iris 20 4526 >> salidaILS-ES
+	./$(_EXE) ils_es iris 20 3214 >> salidaILS-ES
+	echo -e "ECOLI20 ----------------" >> salidaILS-ES
+	./$(_EXE) ils_es ecoli 20 148 >> salidaILS-ES
+	./$(_EXE) ils_es ecoli 20 876 >> salidaILS-ES
+	./$(_EXE) ils_es ecoli 20 8942 >> salidaILS-ES
+	./$(_EXE) ils_es ecoli 20 4526 >> salidaILS-ES
+	./$(_EXE) ils_es ecoli 20 3214 >> salidaILS-ES
+	echo -e "NEWTHYROID20 ----------------" >> salidaILS-ES
+	./$(_EXE) ils_es newthyroid 20 148 >> salidaILS-ES
+	./$(_EXE) ils_es newthyroid 20 876 >> salidaILS-ES
+	./$(_EXE) ils_es newthyroid 20 8942 >> salidaILS-ES
+	./$(_EXE) ils_es newthyroid 20 4526 >> salidaILS-ES
+	./$(_EXE) ils_es newthyroid 20 3214 >> salidaILS-ES

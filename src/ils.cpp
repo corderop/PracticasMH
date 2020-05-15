@@ -24,7 +24,9 @@ void ILS::realizarBusquedaILS(){
         this->realizarBusqueda();
         // Criterio de aceptación
         if(mejor_sol.obj > this->obj)
-            mejor_sol =(*this);
+            mejor_sol = (*this);
+        else
+            (*this) = mejor_sol;
     }
 
     t1 = clock();
@@ -32,7 +34,6 @@ void ILS::realizarBusquedaILS(){
 }
 
 void ILS::mutacion(){
-    Solucion s;
     int r = Randint(0,n-1),
         v = (int)0.1*n;
 

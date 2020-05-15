@@ -30,21 +30,21 @@ Busqueda::Busqueda(vector<vector<double>> _X, vector<vector<int>> _MR, int _k){
 void Busqueda::mostrarResultado(){
     this->funcionObjetivo();
 
-    cout<<"Resultado Busqueda: "<<endl;
-    cout<<"Desviación general (Tasa_C): "<<desviacion<<endl;
-    cout<<"Infeasability (Tasa_inf): "<<inf_total<<endl;
-    cout<<"Agregado: "<<obj<<endl;
-    cout<<"Tiempo: "<<time<<endl;
-    cout<<"Clusters: "<<endl;
+    // cout<<"Resultado Busqueda: "<<endl;
+    // cout<<"Desviación general (Tasa_C): "<<desviacion<<endl;
+    // cout<<"Infeasability (Tasa_inf): "<<inf_total<<endl;
+    // cout<<"Agregado: "<<obj<<endl;
+    // cout<<"Tiempo: "<<time<<endl;
+    // cout<<"Clusters: "<<endl;
 
-    for(int i=0; i<k; i++){
-        cout<<"Cluster "<<i+1<<" num: "<<n_c[i]<<endl;
-        for(int j=0; j<C[i].size(); j++){
-            cout<<C[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-    // cout<<desviacion<<","<<inf_total<<","<<obj<<","<<time<<endl;
+    // for(int i=0; i<k; i++){
+    //     cout<<"Cluster "<<i+1<<" num: "<<n_c[i]<<endl;
+    //     for(int j=0; j<C[i].size(); j++){
+    //         cout<<C[i][j]<<" ";
+    //     }
+    //     cout<<endl;
+    // }
+    cout<<desviacion<<","<<inf_total<<","<<obj<<","<<time<<endl;
 }
 
 

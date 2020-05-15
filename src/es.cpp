@@ -58,7 +58,7 @@ Solucion ES::solucionVecina(const Solucion &s){
 
     // No deje ningún cluster vacio
     while(n_c[S[i_r]]<=1){
-        i_r = Randint(0,n);
+        i_r = Randint(0,n-1);
     }
 
     (*this) = s;

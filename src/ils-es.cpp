@@ -3,7 +3,7 @@
 void ILS_ES::realizarBusquedaILS(){
     unsigned t0, t1;
     int ev = 0;
-    Solucion mejor_sol;
+    Solucion s, mejor_sol;
     this->nueva_sol = false;
     this->max_ev = 10000;
 
@@ -24,7 +24,9 @@ void ILS_ES::realizarBusquedaILS(){
         this->realizarBusqueda();
         // Criterio de aceptación
         if(mejor_sol.obj > this->obj)
-            mejor_sol =(*this);
+            mejor_sol = (*this);
+        else
+            (*this) = mejor_sol;
     }
 
     t1 = clock();
