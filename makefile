@@ -7,7 +7,7 @@ _EXE=bin/main_exe
 _CPP = $(wildcard src/*.cpp))
 _OBJ = $(addprefix obj/, $(notdir $(addsuffix .o, $(basename $(_CPP)))))
 
-all: es_data bmb_data ils_data ils_es_data
+all: $(_EXE)
 
 depurar: $(_EXE)
 	gdb $(_EXE)
